@@ -1,16 +1,38 @@
-# React + Vite
+# AIM://Portfolio — Santiago Elian Vazquez
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio interactivo inspirado en CS2. Refleja mi creatividad y ganas de seguir aprendiendo.
 
-Currently, two official plugins are available:
+![Preview](./preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🎮 Demo en vivo
 
-## React Compiler
+[portafolio-santiago-vazquez-lw3fz4rlx.vercel.app](https://portafolio-santiago-vazquez-lw3fz4rlx.vercel.app)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- Personaje TerrorCS que patrulla la pantalla
+- Mira custom que reemplaza el cursor
+- Disparos con sonido de AK47 real
+- KillFeed estilo CS2 al impactar un botón
+- Sonido de headshot al navegar
+- Navegación entre secciones sin tocar un solo link
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Stack
+
+- **React + Vite**
+- **Tailwind CSS**
+- **KAPLAY** — game engine para canvas
+- **React Router**
+
+## 🚀 Correr localmente
+
+```bash
+npm install
+npm run dev
+```
+
+Abre [http://localhost:5173](http://localhost:5173) en el browser.
+
+## 👤 Autor
+
+Santiago Elian Vazquez — [GitHub](https://github.com/SantiagoVazquez21)
