@@ -1,0 +1,83 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap');
+
+.game-active, .game-active * {
+    cursor: none !important;
+}
+
+:root {
+  --color-bg: #0e0e10;
+  --color-bg-mid: #1a1a1d;
+  --color-accent: #ff6b1a;
+  --color-accent-glow: rgba(255, 107, 26, 0.4);
+  --color-crosshair: #00ff66;
+  --color-text: #e8e8e8;
+  --color-text-dim: #888;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Courier New', Consolas, monospace;
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--color-accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 100px var(--color-accent-glow);
+  }
+}
+@keyframes slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.anim-fade {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.anim-fade.glow {
+  animation: fadeIn 0.6s ease forwards, glow 2s 2s ease-in-out infinite;
+}
+
+.anim-slide-in {
+  animation: slide-in 0.5s ease-out;
+}
+
+@keyframes killCard {
+  0%   { opacity: 0; transform: translateX(20px); }
+  10%  { opacity: 1; transform: translateX(0); }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.anim-kill-card {
+  animation: killCard 3s ease forwards;
+}
