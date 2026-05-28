@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap');
+@import "tailwindcss";
 
 .game-active, .game-active * {
     cursor: none !important;
