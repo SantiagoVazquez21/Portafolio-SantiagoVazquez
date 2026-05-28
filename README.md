@@ -2,7 +2,7 @@
 
 Portfolio interactivo inspirado en CS2. Refleja mi creatividad y ganas de seguir aprendiendo.
 
-![Preview](./preview.png)
+![Preview](./PreviewPortafolio.png)
 
 ## 🎮 Demo en vivo
 
