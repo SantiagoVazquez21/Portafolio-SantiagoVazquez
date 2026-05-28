@@ -88,6 +88,7 @@ function Game({ onKill }) {
 
         k.loadSprite("TerrorDerecha", "/sprites/Sprite_TerrorCS_Derecha.png")
         k.loadSprite("TerrorIzquierda", "/sprites/Sprite_TerrorCS_Izquierda.png")
+        k.loadSprite("FondoDust2", "/FondoDust2.jpg")
 
         // Estas variables viven fuera de la escena para que onMouseDown pueda accederlas
         const balas = []
@@ -127,9 +128,22 @@ function Game({ onKill }) {
         window.addEventListener('mousedown', onMouseDown)
 
         k.scene("main", () => {
-            k.setBackground(14, 14, 16)
             let direction = 1
             let BASE_Y = k.height() - 255
+
+            k.add([
+                {
+                    draw() {
+                        k.drawSprite({
+                            sprite: "FondoDust2",
+                            pos: k.vec2(0, 0),
+                            width: k.width(),
+                            height: k.height(),
+                        })
+                    },
+                    z: -1,
+                }
+            ])
 
             const Terror = k.add([
                 k.sprite("TerrorDerecha"),
@@ -196,16 +210,16 @@ function Game({ onKill }) {
     }, [])
 
     return (
-            <canvas
-                ref={canvasRef}
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    zIndex: 0,
-                    pointerEvents: 'auto',
-                }}
-            />
+        <canvas
+            ref={canvasRef}
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                zIndex: 0,
+                pointerEvents: 'auto',
+            }}
+        />
     )
 }
 
