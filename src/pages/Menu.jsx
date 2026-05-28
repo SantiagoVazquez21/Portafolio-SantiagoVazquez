@@ -1,37 +1,37 @@
 import Game from '../components/Game';
+import Header from '../components/Header'
 
-function Menu({ onKill }) {
+export default function Menu({ onKill }) {
 
-    const secciones = [
-        { path: '/about', label: 'Sobre Mí' },
-        { path: '/skills', label: 'Habilidades' },
-        { path: '/projects', label: 'Proyectos' },
-        { path: '/experience', label: 'Experiencia' },
-        { path: '/contact', label: 'Contacto' }
-    ]
+    return (
 
+        <>
+            <Header />
 
-  return (
+            <section id="hero" className="h-screen relative">
+                <Game onKill={onKill} />
 
-    <>
-        <Game onKill={onKill} />
+            </section>
 
-        <main className="fixed inset-0 z-10 flex flex-col text-white px-6 pointer-events-none">
+            <section id="sobremi" className="min-h-screen flex items-center justify-center text-white">
+                <h2>Sobre Mí</h2>
+            </section>
 
-            <div className="pt-10 flex justify-center gap-4">
-                {secciones.map((seccion) => (
-                    <button
-                        id={`btn-${seccion.path.slice(1)}`}
-                        key={seccion.path}
-                        className="flex-1 px-6 py-3 bg-orange-500 text-white rounded text-lg font-semibold"
-                    >
-                        {seccion.label}
-                    </button>
-                ))}
-            </div>
-        </main>
-    </>
-  )
+            <section id="habilidades" className="min-h-screen flex items-center justify-center text-white">
+                <h2>Habilidades</h2>
+            </section>
+
+            <section id="proyectos" className="min-h-screen flex items-center justify-center text-white">
+                <h2>Proyectos</h2>
+            </section>
+
+            <section id="experiencia" className="min-h-screen flex items-center justify-center text-white">
+                <h2>Experiencia</h2>
+            </section>
+
+            <section id="contacto" className="min-h-screen flex items-center justify-center text-white">
+                <h2>Contacto</h2>
+            </section>
+        </>
+    )
 }
-
-export default Menu
