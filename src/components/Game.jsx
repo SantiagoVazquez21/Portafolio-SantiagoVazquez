@@ -34,7 +34,7 @@ function Game({ onKill }) {
             position: absolute;
             width: 30px;
             height: 2px;
-            background: #00ff66;
+            background: #002fff;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -44,7 +44,7 @@ function Game({ onKill }) {
             position: absolute;
             width: 2px;
             height: 30px;
-            background: #00ff66;
+            background: #002fff;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);

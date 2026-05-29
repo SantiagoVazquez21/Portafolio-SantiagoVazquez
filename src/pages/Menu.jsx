@@ -1,5 +1,6 @@
 import Game from '../components/Game';
-import Header from '../components/Header'
+import Header from '../components/Header';
+import SobreMi from '../pages/SobreMi';
 
 export default function Menu({ onKill }) {
 
@@ -19,7 +20,7 @@ export default function Menu({ onKill }) {
                         Terror
                     </div>
                     <div className="flex-1 flex items-center justify-center">
-                        <h2 className="text-white text-4xl">Sobre Mí</h2>
+                        <SobreMi/>
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
                         Logo
