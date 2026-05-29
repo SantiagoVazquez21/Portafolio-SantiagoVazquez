@@ -1,5 +1,4 @@
 
-
 export default function Header() {
     
     const secciones = [
@@ -21,6 +20,7 @@ export default function Header() {
                 {secciones.map(s => (
                     <button
                         key={s.id}
+                        id={`btn-${s.id}`}
                         onClick={() => document.getElementById(s.id).scrollIntoView({ behavior: 'smooth' })}
                     >
                         {s.label}

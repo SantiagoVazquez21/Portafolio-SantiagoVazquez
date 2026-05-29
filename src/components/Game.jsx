@@ -1,25 +1,17 @@
 import {useRef, useEffect} from 'react';
 import kaplay from 'kaplay';
-import {useNavigate} from "react-router-dom";
 
-// Le decimos a Vite que recargue la página entera cuando este archivo cambie
-// en lugar de hacer HMR, porque KAPLAY necesita reiniciarse desde cero
 if (import.meta.hot) {
     import.meta.hot.accept(() => {
         window.location.reload()
     })
 }
 
-// Variable de módulo: persiste entre montajes del componente
-// Así podemos destruir la instancia anterior antes de crear una nueva
 let kaplayInstance = null
 
 function Game({ onKill }) {
     const onKillRef = useRef(null);
     const canvasRef = useRef(null);
-    const navigate = useNavigate();
-    const navigateRef = useRef(null);
-    navigateRef.current = navigate;
     onKillRef.current = onKill;
 
     useEffect(() => {
@@ -78,12 +70,27 @@ function Game({ onKill }) {
             kaplayInstance = null
         }
 
+        // Parcheamos addEventListener para que KAPLAY no pueda bloquear el scroll con wheel/touchmove
+        const origAddEventListener = EventTarget.prototype.addEventListener
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+            if (type === 'wheel' || type === 'touchmove') {
+                const newOptions = typeof options === 'object'
+                    ? { ...options, passive: true }
+                    : { passive: true }
+                return origAddEventListener.call(this, type, listener, newOptions)
+            }
+            return origAddEventListener.call(this, type, listener, options)
+        }
+
         const k = kaplay({
             canvas: canvasRef.current,
             width: document.documentElement.clientWidth,
             height: document.documentElement.clientHeight,
             global: false,
         })
+
+        // Restauramos addEventListener después de que KAPLAY terminó de registrar sus listeners
+        EventTarget.prototype.addEventListener = origAddEventListener
         kaplayInstance = k
 
         k.loadSprite("TerrorDerecha", "/sprites/Sprite_TerrorCS_Derecha.png")
@@ -179,7 +186,7 @@ function Game({ onKill }) {
                         continue
                     }
 
-                    const secciones = ['about', 'skills', 'projects', 'experience', 'contact']
+                    const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
                     for (const id of secciones) {
                         const btn = document.getElementById(`btn-${id}`)
                         if (!btn) continue
@@ -189,7 +196,7 @@ function Game({ onKill }) {
                             b.obj.destroy()
                             balas.splice(i, 1)
                             HeadShot()
-                            navigateRef.current(`/${id}`)
+                            document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
                             onKillRef.current(id)
                             break
                         }
@@ -213,11 +220,11 @@ function Game({ onKill }) {
         <canvas
             ref={canvasRef}
             style={{
-                position: 'fixed',
+                position: 'absolute',
                 top: 0,
                 left: 0,
                 zIndex: 0,
-                pointerEvents: 'auto',
+                pointerEvents: 'none',
             }}
         />
     )

@@ -19,14 +19,21 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
   padding: 0;
-  height: 100%;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: 'Courier New', Consolas, monospace;
-  overflow-x: hidden;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
 }
 
 @keyframes fadeIn {

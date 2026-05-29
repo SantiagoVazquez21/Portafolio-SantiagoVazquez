@@ -8,29 +8,79 @@ export default function Menu({ onKill }) {
         <>
             <Header />
 
-            <section id="hero" className="h-screen relative">
+            <section id="hero" className="h-screen relative overflow-hidden">
                 <Game onKill={onKill} />
 
             </section>
 
-            <section id="sobremi" className="min-h-screen flex items-center justify-center text-white">
-                <h2>Sobre Mí</h2>
+            <section id="sobremi" className="min-h-screen">
+                <div className="flex h-full min-h-screen">
+                    <div className="w-24 flex items-center justify-center border-r border-white/10">
+                        Terror
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className="text-white text-4xl">Sobre Mí</h2>
+                    </div>
+                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
+                        Logo
+                    </div>
+                </div>
             </section>
 
-            <section id="habilidades" className="min-h-screen flex items-center justify-center text-white">
-                <h2>Habilidades</h2>
+            <section id="habilidades" className="min-h-screen">
+                <div className="flex h-full min-h-screen">
+                    <div className="w-24 flex items-center justify-center border-r border-white/10">
+                        Terror
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className="text-white text-4xl">Habilidades</h2>
+                    </div>
+                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
+                        Logo
+                    </div>
+                </div>
             </section>
 
-            <section id="proyectos" className="min-h-screen flex items-center justify-center text-white">
-                <h2>Proyectos</h2>
+            <section id="proyectos" className="min-h-screen">
+                <div className="flex h-full min-h-screen">
+                    <div className="w-24 flex items-center justify-center border-r border-white/10">
+                        Terror
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className="text-white text-4xl">Proyectos</h2>
+                    </div>
+                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
+                        Logo
+                    </div>
+                </div>
             </section>
 
-            <section id="experiencia" className="min-h-screen flex items-center justify-center text-white">
-                <h2>Experiencia</h2>
+            <section id="experiencia" className="min-h-screen">
+                <div className="flex h-full min-h-screen">
+                    <div className="w-24 flex items-center justify-center border-r border-white/10">
+                        Terror
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className="text-white text-4xl">Experiencia</h2>
+                    </div>
+                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
+                        Logo
+                    </div>
+                </div>
             </section>
 
-            <section id="contacto" className="min-h-screen flex items-center justify-center text-white">
-                <h2>Contacto</h2>
+            <section id="contacto" className="min-h-screen">
+                <div className="flex h-full min-h-screen">
+                    <div className="w-24 flex items-center justify-center border-r border-white/10">
+                        Terror
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className="text-white text-4xl">Contacto</h2>
+                    </div>
+                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
+                        Logo
+                    </div>
+                </div>
             </section>
         </>
     )

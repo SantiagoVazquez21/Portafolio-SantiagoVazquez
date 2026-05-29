@@ -1,4 +1,4 @@
-import { Routes, Route} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import {useState} from 'react';
 import KillFeed from './components/KillFeed';
 import Home from './pages/Home'
