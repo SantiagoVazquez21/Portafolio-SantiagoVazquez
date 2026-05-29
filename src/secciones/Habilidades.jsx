@@ -72,12 +72,18 @@ function SkillCard({ titulo, logos }) {
     const maxIdx = Math.max(0, logos.length - visible)
 
     useEffect(() => {
-        const update = () => {
-            if (trackRef.current) setTrackWidth(trackRef.current.offsetWidth)
+        const el = trackRef.current
+        if (!el) return
+
+        const measure = () => {
+            requestAnimationFrame(() => {
+                if (trackRef.current) setTrackWidth(trackRef.current.offsetWidth)
+            })
         }
-        update()
-        window.addEventListener('resize', update)
-        return () => window.removeEventListener('resize', update)
+
+        const observer = new ResizeObserver(measure)
+        observer.observe(el)
+        return () => observer.disconnect()
     }, [])
 
     return (
