@@ -88,3 +88,12 @@ body {
 .anim-kill-card {
   animation: killCard 3s ease forwards;
 }
+
+@keyframes ticker {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
+.animate-ticker {
+  animation: ticker 25s linear infinite;
+}
