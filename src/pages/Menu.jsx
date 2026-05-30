@@ -12,7 +12,7 @@ function Seccion({ id, bg, children, centered = false, className = '' }) {
     return (
         <section
             id={id}
-            className={`flex flex-col scroll-mt-[56px] ${bg} ${centered ? 'min-h-[calc(100vh-56px)]' : ''} ${className}`}
+            className={`flex flex-col scroll-mt-[80px] ${bg} ${centered ? 'min-h-[calc(100vh-80px)]' : ''} ${className}`}
         >
             <div className="flex flex-1">
                 <div className="w-24 flex-shrink-0 border-r border-white/10" />
@@ -30,16 +30,17 @@ export default function Menu({ onKill }) {
         <>
             <Header />
 
-            <section id="hero" className="h-screen relative overflow-hidden">
+            {/* CSS como fallback para el flash inicial antes de que KAPLAY renderice */}
+            <section id="hero" className="h-screen relative overflow-hidden bg-[#0e0e10]">
                 <Game onKill={onKill} />
             </section>
 
             {/* centered: ocupa pantalla entera y centra el contenido */}
             <Seccion id="sobremi"     bg="bg-[#0e0e10]" centered><SobreMi /></Seccion>
             <Seccion id="habilidades" bg="bg-[#1a1a1d]" centered><Habilidades /></Seccion>
-            <Seccion id="proyectos"   bg="bg-[#0e0e10]" className="min-h-[calc(100vh-56px)]"><Proyectos /></Seccion>
+            <Seccion id="proyectos"   bg="bg-[#0e0e10]" className="min-h-[calc(100vh-80px)]"><Proyectos /></Seccion>
             <Seccion id="experiencia" bg="bg-[#1a1a1d]" centered><Experiencia /></Seccion>
-            <Seccion id="contacto"    bg="bg-[#0e0e10]" className="min-h-[calc(100vh-56px)]"><Contacto /></Seccion>
+            <Seccion id="contacto"    bg="bg-[#0e0e10]" centered><Contacto /></Seccion>
         </>
     )
 }

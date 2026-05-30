@@ -93,9 +93,10 @@ function Game({ onKill }) {
         EventTarget.prototype.addEventListener = origAddEventListener
         kaplayInstance = k
 
-        k.loadSprite("TerrorDerecha", "/sprites/Sprite_TerrorCS_Derecha.png")
-        k.loadSprite("TerrorIzquierda", "/sprites/Sprite_TerrorCS_Izquierda.png")
-        k.loadSprite("FondoDust2", "/FondoDust2.jpg")
+        k.loadSprite("TerrorDerecha", "/sprites/Terror_Derecha.png")
+        k.loadSprite("TerrorIzquierda", "/sprites/Terror_Izquierda.png")
+        k.loadSprite("AgujeroBala", "/sprites/AgujeroBala.png")
+        k.loadSprite("FondoDust2", "/fondos/Dust2Fondo.png")
 
         // Estas variables viven fuera de la escena para que onMouseDown pueda accederlas
         const balas = []
@@ -169,25 +170,31 @@ function Game({ onKill }) {
 
         k.scene("main", () => {
             let direction = 1
-            let BASE_Y = k.height() - 255
+            let BASE_Y = k.height() - 360
 
-            k.add([
-                {
-                    draw() {
-                        k.drawSprite({
-                            sprite: "FondoDust2",
-                            pos: k.vec2(0, 0),
-                            width: k.width(),
-                            height: k.height(),
-                        })
+            // Fondo — draw() callback dentro de onLoad() garantiza que el sprite
+            // ya terminó de cargar antes del primer frame. drawSprite con width/height
+            // explícitos cubre exactamente el canvas sin distorsionar el resto.
+            k.onLoad(() => {
+                k.add([
+                    {
+                        draw() {
+                            k.drawSprite({
+                                sprite: "FondoDust2",
+                                pos: k.vec2(0, 0),
+                                width: k.width(),
+                                height: k.height(),
+                            })
+                        },
                     },
-                    z: -1,
-                }
-            ])
+                    k.z(-10),
+                ])
+            })
 
             const Terror = k.add([
                 k.sprite("TerrorDerecha"),
                 k.pos(200, BASE_Y),
+                k.z(10), // por encima de balas y agujeros (z=0)
             ])
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
@@ -253,8 +260,15 @@ function Game({ onKill }) {
                         // Fade-out: empieza 1 segundo antes de desaparecer
                         const opacity = age > HOLE_LIFE - 1 ? (HOLE_LIFE - age) : 1
 
-                        k.drawCircle({ pos: k.vec2(hole.x, hole.y), radius: 7, color: k.rgb(10, 10, 10), opacity })
-                        k.drawCircle({ pos: k.vec2(hole.x, hole.y), radius: 3, color: k.rgb(0, 0, 0), opacity })
+                        // Sprite real del agujero de bala con fade-out aplicado
+                        k.drawSprite({
+                            sprite: "AgujeroBala",
+                            pos: k.vec2(hole.x, hole.y),
+                            anchor: "center",
+                            width: 40,
+                            height: 40,
+                            opacity,
+                        })
                     }
                 }
             }])

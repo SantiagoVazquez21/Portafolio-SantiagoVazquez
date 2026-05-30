@@ -10,19 +10,18 @@ export default function Header() {
 
     return (
         <div className="fixed top-0 z-50 w-full bg-[#0a0a0c]/95 backdrop-blur-md border-b border-white/8">
-            <div className="flex items-center h-14">
+            <div className="flex items-center h-20">
 
                 {/* Columna izquierda — espeja el ancho de la columna Terror */}
                 <div className="w-24 flex-shrink-0" />
 
                 {/* Área de contenido central — logo izquierda, nav derecha */}
                 <div className="flex-1 flex items-center justify-between px-8">
-                    <span
-                        className="text-orange-400 font-bold tracking-widest text-sm"
-                        style={{ fontFamily: 'Rajdhani, sans-serif' }}
-                    >
-                        AIM
-                    </span>
+                    <img
+                        src="/sprites/LogoTerror.png"
+                        alt="AIM"
+                        className="h-12 w-auto object-contain"
+                    />
 
                     <div className="flex items-center gap-10">
                         {secciones.map(s => (

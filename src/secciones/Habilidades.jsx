@@ -87,7 +87,7 @@ function SkillCard({ titulo, logos }) {
     }, [])
 
     return (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
             <h3 className="text-white font-bold mb-2 text-base">{titulo}</h3>
 
             <div className="flex items-center gap-4">
