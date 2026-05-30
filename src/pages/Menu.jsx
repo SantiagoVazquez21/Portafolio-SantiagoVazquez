@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import SobreMi from '../secciones/SobreMi';
 import Habilidades from '../secciones/Habilidades';
 import Proyectos from '../secciones/Proyectos';
+import Experiencia from '../secciones/Experiencia';
 
 export default function Menu({ onKill }) {
 
@@ -16,12 +17,12 @@ export default function Menu({ onKill }) {
 
             </section>
 
-            <section id="sobremi" className="min-h-screen">
-                <div className="flex h-full min-h-screen">
+            <section id="sobremi" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
+                <div className="flex min-h-screen">
                     <div className="w-24 flex items-center justify-center border-r border-white/10">
                         Terror
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex justify-center pt-16">
                         <SobreMi />
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
@@ -30,12 +31,12 @@ export default function Menu({ onKill }) {
                 </div>
             </section>
 
-            <section id="habilidades" className="min-h-screen">
-                <div className="flex h-full min-h-screen">
+            <section id="habilidades" className="min-h-screen bg-[#1a1a1d] scroll-mt-[40px]">
+                <div className="flex min-h-screen">
                     <div className="w-24 flex items-center justify-center border-r border-white/10">
                         Terror
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex justify-center pt-16">
                         <Habilidades />
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
@@ -44,12 +45,12 @@ export default function Menu({ onKill }) {
                 </div>
             </section>
 
-            <section id="proyectos" className="min-h-screen">
-                <div className="flex h-full min-h-screen">
+            <section id="proyectos" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
+                <div className="flex min-h-screen">
                     <div className="w-24 flex items-center justify-center border-r border-white/10">
                         Terror
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex justify-center pt-16">
                         <Proyectos />
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
@@ -58,13 +59,13 @@ export default function Menu({ onKill }) {
                 </div>
             </section>
 
-            <section id="experiencia" className="min-h-screen">
-                <div className="flex h-full min-h-screen">
+            <section id="experiencia" className="min-h-screen bg-[#1a1a1d] scroll-mt-[40px]">
+                <div className="flex min-h-screen">
                     <div className="w-24 flex items-center justify-center border-r border-white/10">
                         Terror
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
-                        <h2 className="text-white text-4xl">Experiencia</h2>
+                    <div className="flex-1 flex justify-center pt-16">
+                        <Experiencia />
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
                         Logo
@@ -72,12 +73,12 @@ export default function Menu({ onKill }) {
                 </div>
             </section>
 
-            <section id="contacto" className="min-h-screen">
-                <div className="flex h-full min-h-screen">
+            <section id="contacto" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
+                <div className="flex min-h-screen">
                     <div className="w-24 flex items-center justify-center border-r border-white/10">
                         Terror
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex justify-center pt-16">
                         <h2 className="text-white text-4xl">Contacto</h2>
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
