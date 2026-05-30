@@ -99,6 +99,7 @@ function Game({ onKill }) {
 
         // Estas variables viven fuera de la escena para que onMouseDown pueda accederlas
         const balas = []
+        const bulletHoles = [] // agujeros persistentes — se acumulan hasta que se desmonta el componente
         let terrorRef = null
 
         const HeadShot = () => {
@@ -125,12 +126,17 @@ function Game({ onKill }) {
             const velX = (dx / dist) * speed
             const velY = (dy / dist) * speed
 
+            // Rotamos la bala para que apunte en la dirección de viaje
+            const angle = Math.atan2(velY, velX) * (180 / Math.PI) + 90
             const bala = k.add([
                 k.rect(2, 16),
                 k.pos(terrorRef.pos.x, terrorRef.pos.y),
                 k.color(255, 50, 50),
+                k.rotate(angle),
+                k.anchor('center'),
             ])
-            balas.push({ obj: bala, velX, velY })
+            // Guardamos el destino exacto donde clickeó el usuario
+            balas.push({ obj: bala, velX, velY, targetX: mouseX, targetY: mouseY })
         }
         window.addEventListener('mousedown', onMouseDown)
 
@@ -159,6 +165,31 @@ function Game({ onKill }) {
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
 
+            const HOLE_LIFE = 4 // segundos que dura cada agujero en pantalla
+
+            // Objeto persistente que dibuja todos los agujeros y maneja su fade-out
+            k.add([{
+                draw() {
+                    const now = k.time()
+                    for (let i = bulletHoles.length - 1; i >= 0; i--) {
+                        const hole = bulletHoles[i]
+                        const age = now - hole.born
+
+                        // Cuando supera el tiempo de vida, lo eliminamos del array
+                        if (age > HOLE_LIFE) {
+                            bulletHoles.splice(i, 1)
+                            continue
+                        }
+
+                        // Fade-out: empieza 1 segundo antes de desaparecer
+                        const opacity = age > HOLE_LIFE - 1 ? (HOLE_LIFE - age) : 1
+
+                        k.drawCircle({ pos: k.vec2(hole.x, hole.y), radius: 7, color: k.rgb(10, 10, 10), opacity })
+                        k.drawCircle({ pos: k.vec2(hole.x, hole.y), radius: 3, color: k.rgb(0, 0, 0), opacity })
+                    }
+                }
+            }])
+
             k.onUpdate(() => {
                 // Movimiento del Terror
                 Terror.pos.x += 150 * direction * k.dt()
@@ -176,9 +207,25 @@ function Game({ onKill }) {
                 // Movimiento y colisión de balas
                 for (let i = balas.length - 1; i >= 0; i--) {
                     const b = balas[i]
+
+                    // Calculamos cuánto avanza la bala ESTE frame
+                    const stepDist = Math.sqrt(b.velX * b.velX + b.velY * b.velY) * k.dt()
+                    const dxT = b.targetX - b.obj.pos.x
+                    const dyT = b.targetY - b.obj.pos.y
+                    const distToTarget = Math.sqrt(dxT * dxT + dyT * dyT)
+
+                    // Si el avance de este frame supera la distancia restante → llegó al destino
+                    if (stepDist >= distToTarget) {
+                        bulletHoles.push({ x: b.targetX, y: b.targetY, born: k.time() })
+                        b.obj.destroy()
+                        balas.splice(i, 1)
+                        continue
+                    }
+
                     b.obj.pos.x += b.velX * k.dt()
                     b.obj.pos.y += b.velY * k.dt()
 
+                    // Fallback: si sale de pantalla sin llegar, la destruimos sin agujero
                     if (b.obj.pos.x < 0 || b.obj.pos.x > k.width() ||
                         b.obj.pos.y < 0 || b.obj.pos.y > k.height()) {
                         b.obj.destroy()
@@ -186,6 +233,7 @@ function Game({ onKill }) {
                         continue
                     }
 
+                    // Colisión con botones del header → scroll a sección
                     const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
                     for (const id of secciones) {
                         const btn = document.getElementById(`btn-${id}`)
@@ -193,6 +241,7 @@ function Game({ onKill }) {
                         const rect = btn.getBoundingClientRect()
                         if (b.obj.pos.x >= rect.left && b.obj.pos.x <= rect.right &&
                             b.obj.pos.y >= rect.top  && b.obj.pos.y <= rect.bottom) {
+                            bulletHoles.push({ x: b.obj.pos.x, y: b.obj.pos.y, born: k.time() })
                             b.obj.destroy()
                             balas.splice(i, 1)
                             HeadShot()
