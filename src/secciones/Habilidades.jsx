@@ -87,8 +87,8 @@ function SkillCard({ titulo, logos }) {
     }, [])
 
     return (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <h3 className="text-white font-bold mb-6 text-lg">{titulo}</h3>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <h3 className="text-white font-bold mb-2 text-base">{titulo}</h3>
 
             <div className="flex items-center gap-4">
                 <Diana
@@ -97,7 +97,7 @@ function SkillCard({ titulo, logos }) {
                     disabled={idx === 0}
                 />
 
-                <div ref={trackRef} className="flex-1 overflow-hidden relative py-4" style={{ minHeight: '90px' }}>
+                <div ref={trackRef} className="flex-1 overflow-hidden relative py-2" style={{ minHeight: '70px' }}>
                     <div className="absolute left-0 right-0 top-1/2 h-px bg-white/10" />
                     <div
                         className="flex transition-transform duration-300 ease-out"
@@ -135,7 +135,7 @@ function SkillCard({ titulo, logos }) {
 
 export default function Habilidades() {
     return (
-        <div className="flex flex-col gap-6 max-w-5xl mx-auto px-8 py-8">
+        <div className="flex flex-col gap-3 max-w-5xl mx-auto px-8 py-2">
             <h2 className="text-4xl font-bold text-orange-400">Habilidades</h2>
             {cards.map(card => (
                 <SkillCard key={card.titulo} titulo={card.titulo} logos={card.logos} />

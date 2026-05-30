@@ -77,7 +77,7 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
             {/* Línea de acento superior */}
             <div className="h-[3px] bg-gradient-to-r from-orange-400 to-orange-400/10" />
 
-            <div className="p-6">
+            <div className="p-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-orange-400/10 border border-orange-400/20 flex items-center justify-center flex-shrink-0">
@@ -138,7 +138,7 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
             {/* Línea de acento superior */}
             <div className="h-[3px] bg-gradient-to-r from-[#00ff66] to-[#00ff66]/10" />
 
-            <div className="p-6">
+            <div className="p-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-[#00ff66]/10 border border-[#00ff66]/20 flex items-center justify-center flex-shrink-0">
@@ -172,20 +172,22 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
 
 export default function Experiencia() {
     return (
-        <div className="flex flex-col gap-12 max-w-3xl mx-auto px-8 py-8 w-full">
+        <div className="flex flex-col gap-6 max-w-5xl mx-auto px-8 py-4 w-full">
 
+            {/* Formación — siempre en fila de 2 (son exactamente 2 estudios) */}
             <div>
-                <h2 className="text-4xl font-bold text-orange-400 mb-6">Formación</h2>
-                <div className="flex flex-col gap-4">
+                <h2 className="text-3xl font-bold text-orange-400 mb-4">Formación</h2>
+                <div className="grid grid-cols-2 gap-3">
                     {formacion.map((item, i) => (
                         <FormacionCard key={i} {...item} delay={i * 120} />
                     ))}
                 </div>
             </div>
 
+            {/* Experiencia — grilla de 2 columnas: escala bien cuando haya más */}
             <div>
-                <h2 className="text-4xl font-bold text-orange-400 mb-6">Experiencia</h2>
-                <div className="flex flex-col gap-4">
+                <h2 className="text-3xl font-bold text-orange-400 mb-4">Experiencia</h2>
+                <div className="grid grid-cols-2 gap-3">
                     {experiencia.map((item, i) => (
                         <ExperienciaCard key={i} {...item} delay={i * 120} />
                     ))}

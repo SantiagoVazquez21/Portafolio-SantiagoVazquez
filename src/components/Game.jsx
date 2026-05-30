@@ -101,6 +101,7 @@ function Game({ onKill }) {
         const balas = []
         const bulletHoles = [] // agujeros persistentes — se acumulan hasta que se desmonta el componente
         let terrorRef = null
+        let directionRef = 1  // 1 = mirando derecha, -1 = mirando izquierda
 
         const HeadShot = () => {
             const audio = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3')
@@ -118,21 +119,47 @@ function Game({ onKill }) {
         const onMouseDown = () => {
             playShot()
             if (!terrorRef) return
-            const dx = mouseX - terrorRef.pos.x
-            const dy = mouseY - terrorRef.pos.y
+
+            // Verificamos al momento del click si el cursor está sobre un botón de sección.
+            // Si es así, disparamos el sonido y el scroll inmediatamente sin esperar que llegue la bala.
+            const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
+            for (const id of secciones) {
+                const btn = document.getElementById(`btn-${id}`)
+                if (!btn) continue
+                const rect = btn.getBoundingClientRect()
+                if (mouseX >= rect.left && mouseX <= rect.right &&
+                    mouseY >= rect.top  && mouseY <= rect.bottom) {
+                    HeadShot()
+                    document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
+                    onKillRef.current(id)
+                    break
+                }
+            }
+
+            // Offset del cañón relativo al top-left del sprite.
+            // Ajustá estos valores si la bala no sale exactamente del cañón.
+            const w = terrorRef.width
+            const h = terrorRef.height
+            const canion = directionRef === 1
+                ? { x: w * 0.85, y: h * 0.38 }   // mirando derecha: cañón en el lado derecho
+                : { x: w * 0.15, y: h * 0.38 }   // mirando izquierda: cañón en el lado izquierdo
+
+            const spawnX = terrorRef.pos.x + canion.x
+            const spawnY = terrorRef.pos.y + canion.y
+
+            const dx = mouseX - spawnX
+            const dy = mouseY - spawnY
             const dist = Math.sqrt(dx * dx + dy * dy)
 
             const speed = 5000
             const velX = (dx / dist) * speed
             const velY = (dy / dist) * speed
 
-            // Rotamos la bala para que apunte en la dirección de viaje
-            const angle = Math.atan2(velY, velX) * (180 / Math.PI) + 90
+            // Rect invisible — solo sirve para rastrear la posición de la bala
             const bala = k.add([
-                k.rect(2, 16),
-                k.pos(terrorRef.pos.x, terrorRef.pos.y),
-                k.color(255, 50, 50),
-                k.rotate(angle),
+                k.rect(1, 1),
+                k.pos(spawnX, spawnY),
+                k.opacity(0),
                 k.anchor('center'),
             ])
             // Guardamos el destino exacto donde clickeó el usuario
@@ -164,6 +191,48 @@ function Game({ onKill }) {
             ])
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
+
+            const TRAIL_LEN = 45 // longitud del tracer en píxeles
+
+            // Dibuja el tracer de cada bala en vuelo
+            k.add([{
+                draw() {
+                    for (const b of balas) {
+                        // velDir normalizado: velX y velY son dir * 5000
+                        const dirX = b.velX / 5000
+                        const dirY = b.velY / 5000
+
+                        const headX = b.obj.pos.x
+                        const headY = b.obj.pos.y
+                        const tailX = headX - dirX * TRAIL_LEN
+                        const tailY = headY - dirY * TRAIL_LEN
+
+                        // Capa exterior: glow suave amarillo-naranja
+                        k.drawLine({
+                            p1: k.vec2(tailX, tailY),
+                            p2: k.vec2(headX, headY),
+                            width: 4,
+                            color: k.rgb(255, 160, 20),
+                            opacity: 0.25,
+                        })
+                        // Capa media: núcleo amarillo brillante
+                        k.drawLine({
+                            p1: k.vec2(tailX, tailY),
+                            p2: k.vec2(headX, headY),
+                            width: 2,
+                            color: k.rgb(255, 220, 80),
+                            opacity: 0.85,
+                        })
+                        // Punta: blanco puro para el destello de impacto
+                        k.drawCircle({
+                            pos: k.vec2(headX, headY),
+                            radius: 2,
+                            color: k.rgb(255, 255, 255),
+                            opacity: 0.9,
+                        })
+                    }
+                }
+            }])
 
             const HOLE_LIFE = 4 // segundos que dura cada agujero en pantalla
 
@@ -197,10 +266,12 @@ function Game({ onKill }) {
 
                 if (Terror.pos.x + Terror.width >= k.width()) {
                     direction = -1
+                    directionRef = -1
                     Terror.use(k.sprite("TerrorIzquierda"))
                 }
                 if (Terror.pos.x <= 0) {
                     direction = 1
+                    directionRef = 1
                     Terror.use(k.sprite("TerrorDerecha"))
                 }
 
@@ -233,23 +304,6 @@ function Game({ onKill }) {
                         continue
                     }
 
-                    // Colisión con botones del header → scroll a sección
-                    const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
-                    for (const id of secciones) {
-                        const btn = document.getElementById(`btn-${id}`)
-                        if (!btn) continue
-                        const rect = btn.getBoundingClientRect()
-                        if (b.obj.pos.x >= rect.left && b.obj.pos.x <= rect.right &&
-                            b.obj.pos.y >= rect.top  && b.obj.pos.y <= rect.bottom) {
-                            bulletHoles.push({ x: b.obj.pos.x, y: b.obj.pos.y, born: k.time() })
-                            b.obj.destroy()
-                            balas.splice(i, 1)
-                            HeadShot()
-                            document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
-                            onKillRef.current(id)
-                            break
-                        }
-                    }
                 }
             })
         })

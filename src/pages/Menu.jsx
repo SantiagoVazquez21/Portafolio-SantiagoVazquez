@@ -6,87 +6,40 @@ import Proyectos from '../secciones/Proyectos';
 import Experiencia from '../secciones/Experiencia';
 import Contacto from '../secciones/Contacto';
 
-export default function Menu({ onKill }) {
-
+// centered → sección ocupa pantalla completa con contenido centrado (levemente hacia arriba)
+// className → clases extra para casos especiales
+function Seccion({ id, bg, children, centered = false, className = '' }) {
     return (
+        <section
+            id={id}
+            className={`flex flex-col scroll-mt-[56px] ${bg} ${centered ? 'min-h-[calc(100vh-56px)]' : ''} ${className}`}
+        >
+            <div className="flex flex-1">
+                <div className="w-24 flex-shrink-0 border-r border-white/10" />
+                <div className={`flex-1 flex justify-center ${centered ? 'items-center' : 'py-6'}`}>
+                    {children}
+                </div>
+                <div className="w-24 flex-shrink-0 border-l border-white/10" />
+            </div>
+        </section>
+    )
+}
 
+export default function Menu({ onKill }) {
+    return (
         <>
             <Header />
 
             <section id="hero" className="h-screen relative overflow-hidden">
                 <Game onKill={onKill} />
-
             </section>
 
-            <section id="sobremi" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
-                <div className="flex min-h-screen">
-                    <div className="w-24 flex items-center justify-center border-r border-white/10">
-                        Terror
-                    </div>
-                    <div className="flex-1 flex justify-center pt-16">
-                        <SobreMi />
-                    </div>
-                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
-                        Logo
-                    </div>
-                </div>
-            </section>
-
-            <section id="habilidades" className="min-h-screen bg-[#1a1a1d] scroll-mt-[40px]">
-                <div className="flex min-h-screen">
-                    <div className="w-24 flex items-center justify-center border-r border-white/10">
-                        Terror
-                    </div>
-                    <div className="flex-1 flex justify-center pt-16">
-                        <Habilidades />
-                    </div>
-                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
-                        Logo
-                    </div>
-                </div>
-            </section>
-
-            <section id="proyectos" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
-                <div className="flex min-h-screen">
-                    <div className="w-24 flex items-center justify-center border-r border-white/10">
-                        Terror
-                    </div>
-                    <div className="flex-1 flex justify-center pt-16">
-                        <Proyectos />
-                    </div>
-                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
-                        Logo
-                    </div>
-                </div>
-            </section>
-
-            <section id="experiencia" className="min-h-screen bg-[#1a1a1d] scroll-mt-[40px]">
-                <div className="flex min-h-screen">
-                    <div className="w-24 flex items-center justify-center border-r border-white/10">
-                        Terror
-                    </div>
-                    <div className="flex-1 flex justify-center pt-16">
-                        <Experiencia />
-                    </div>
-                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
-                        Logo
-                    </div>
-                </div>
-            </section>
-
-            <section id="contacto" className="min-h-screen bg-[#0e0e10] scroll-mt-[40px]">
-                <div className="flex min-h-screen">
-                    <div className="w-24 flex items-center justify-center border-r border-white/10">
-                        Terror
-                    </div>
-                    <div className="flex-1 flex justify-center pt-16">
-                        <Contacto />
-                    </div>
-                    <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
-                        Logo
-                    </div>
-                </div>
-            </section>
+            {/* centered: ocupa pantalla entera y centra el contenido */}
+            <Seccion id="sobremi"     bg="bg-[#0e0e10]" centered><SobreMi /></Seccion>
+            <Seccion id="habilidades" bg="bg-[#1a1a1d]" centered><Habilidades /></Seccion>
+            <Seccion id="proyectos"   bg="bg-[#0e0e10]" className="min-h-[calc(100vh-56px)]"><Proyectos /></Seccion>
+            <Seccion id="experiencia" bg="bg-[#1a1a1d]" centered><Experiencia /></Seccion>
+            <Seccion id="contacto"    bg="bg-[#0e0e10]" className="min-h-[calc(100vh-56px)]"><Contacto /></Seccion>
         </>
     )
 }

@@ -13,7 +13,7 @@ const proyectos = [
 
 function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoUrl }) {
     return (
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden grid grid-rows-[12rem_auto] md:grid-rows-1 md:grid-cols-[2fr_3fr]">
+        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden grid grid-rows-[8rem_auto] md:grid-rows-1 md:grid-cols-[2fr_3fr]">
 
             <div className="relative overflow-hidden bg-white/5 flex items-center justify-center">
                 {imagen
@@ -22,9 +22,9 @@ function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoU
                 }
             </div>
 
-            <div className="flex-1 p-6 flex flex-col gap-4">
-                <h3 className="text-white font-bold text-xl">{titulo}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{descripcion}</p>
+            <div className="flex-1 p-4 flex flex-col gap-3">
+                <h3 className="text-white font-bold text-lg">{titulo}</h3>
+                <p className="text-gray-400 text-xs leading-relaxed line-clamp-3">{descripcion}</p>
 
                 <div className="flex flex-wrap gap-2">
                     {tecnologias.map(tech => (
@@ -65,8 +65,8 @@ function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoU
 
 export default function Proyectos() {
     return (
-        <div className="flex flex-col gap-6 max-w-5xl mx-auto px-8 py-8">
-            <h2 className="text-4xl font-bold text-orange-400">Proyectos</h2>
+        <div className="flex flex-col gap-4 max-w-5xl mx-auto px-8 py-4">
+            <h2 className="text-4xl font-bold text-orange-400 mb-2">Proyectos</h2>
             {proyectos.map(p => (
                 <ProyectoCard key={p.titulo} {...p} />
             ))}
