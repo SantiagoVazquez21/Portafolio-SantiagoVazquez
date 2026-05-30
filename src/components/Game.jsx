@@ -9,10 +9,12 @@ if (import.meta.hot) {
 
 let kaplayInstance = null
 
-function Game({ onKill }) {
+function Game({ onKill, tema = 'terror' }) {
     const onKillRef = useRef(null);
     const canvasRef = useRef(null);
+    const temaRef   = useRef(tema);
     onKillRef.current = onKill;
+    temaRef.current   = tema;
 
     useEffect(() => {
         document.documentElement.classList.add('game-active')
@@ -34,7 +36,7 @@ function Game({ onKill }) {
             position: absolute;
             width: 30px;
             height: 2px;
-            background: #002fff;
+            background: #09ff00;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -44,7 +46,7 @@ function Game({ onKill }) {
             position: absolute;
             width: 2px;
             height: 30px;
-            background: #002fff;
+            background: #09ff00;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -93,10 +95,14 @@ function Game({ onKill }) {
         EventTarget.prototype.addEventListener = origAddEventListener
         kaplayInstance = k
 
-        k.loadSprite("TerrorDerecha", "/sprites/Terror_Derecha.png")
-        k.loadSprite("TerrorIzquierda", "/sprites/Terror_Izquierda.png")
-        k.loadSprite("AgujeroBala", "/sprites/AgujeroBala.png")
-        k.loadSprite("FondoDust2", "/fondos/Dust2Fondo.png")
+        k.loadSprite("TerrorDerecha",      "/sprites/Terror_Derecha.png")
+        k.loadSprite("TerrorIzquierda",     "/sprites/Terror_Izquierda.png")
+        // Los archivos AntiTerror están nombrados al revés — swapeamos al cargar
+        k.loadSprite("AntiTerrorDerecha",   "/sprites/AntiTerror_Izquierda.png")
+        k.loadSprite("AntiTerrorIzquierda", "/sprites/AntiTerror_Derecha.png")
+        k.loadSprite("AgujeroBala",         "/sprites/AgujeroBala.png")
+        k.loadSprite("FondoTerror",     "/fondos/Dust2Fondo.png")
+        k.loadSprite("FondoAntiTerror", "/fondos/NukeFondo.png")
 
         // Estas variables viven fuera de la escena para que onMouseDown pueda accederlas
         const balas = []
@@ -182,8 +188,9 @@ function Game({ onKill }) {
                 k.add([
                     {
                         draw() {
+                            // Cambia el fondo según el tema activo — reactivo via temaRef
                             k.drawSprite({
-                                sprite: "FondoDust2",
+                                sprite: temaRef.current === 'terror' ? "FondoTerror" : "FondoAntiTerror",
                                 pos: k.vec2(0, 0),
                                 width: k.width(),
                                 height: k.height(),
@@ -195,9 +202,9 @@ function Game({ onKill }) {
             })
 
             const Terror = k.add([
-                k.sprite("TerrorDerecha"),
+                k.sprite(temaRef.current === 'terror' ? "TerrorDerecha" : "AntiTerrorDerecha"),
                 k.pos(200, BASE_Y),
-                k.z(10), // por encima de balas y agujeros (z=0)
+                k.z(10),
             ])
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
@@ -276,20 +283,32 @@ function Game({ onKill }) {
                 }
             }])
 
+            // Helpers para obtener el nombre correcto del sprite según el tema actual
+            const spriteD = () => temaRef.current === 'terror' ? "TerrorDerecha"    : "AntiTerrorDerecha"
+            const spriteI = () => temaRef.current === 'terror' ? "TerrorIzquierda"  : "AntiTerrorIzquierda"
+
+            let lastTema = temaRef.current
+
             k.onUpdate(() => {
-                // Movimiento del Terror
+                // Si el tema cambió mid-escena, actualizamos el sprite inmediatamente
+                if (temaRef.current !== lastTema) {
+                    lastTema = temaRef.current
+                    Terror.use(k.sprite(direction === 1 ? spriteD() : spriteI()))
+                }
+
+                // Movimiento del personaje
                 Terror.pos.x += 150 * direction * k.dt()
                 Terror.pos.y = BASE_Y + Math.sin(k.time() * 8) * 15
 
                 if (Terror.pos.x + Terror.width >= k.width()) {
                     direction = -1
                     directionRef = -1
-                    Terror.use(k.sprite("TerrorIzquierda"))
+                    Terror.use(k.sprite(spriteI()))
                 }
                 if (Terror.pos.x <= 0) {
                     direction = 1
                     directionRef = 1
-                    Terror.use(k.sprite("TerrorDerecha"))
+                    Terror.use(k.sprite(spriteD()))
                 }
 
                 // Movimiento y colisión de balas
