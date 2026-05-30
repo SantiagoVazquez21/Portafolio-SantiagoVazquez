@@ -39,6 +39,7 @@ function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoU
 
                 <div className="flex gap-3 mt-auto">
                     <a
+                        data-kill
                         href={repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -48,6 +49,7 @@ function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoU
                     </a>
                     {demoUrl && (
                         <a
+                            data-kill
                             href={demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"

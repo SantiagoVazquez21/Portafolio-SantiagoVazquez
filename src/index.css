@@ -5,6 +5,17 @@
     cursor: none !important;
 }
 
+/* ── Tema Terror (por defecto) ── */
+.theme-terror {
+  --tt-primary:   #F59E0B;
+  --tt-secondary: #FB923C;
+  --tt-accent:    #F97316;
+  --tt-bg:        #1A1208;
+  --tt-surface:   #2A1D10;
+  --tt-border:    #5B3A18;
+  --tt-text:      #FFF3D6;
+}
+
 :root {
   --color-bg: #0e0e10;
   --color-bg-mid: #1a1a1d;
@@ -96,4 +107,20 @@ body {
 
 .animate-ticker {
   animation: ticker 25s linear infinite;
+}
+
+@keyframes terrorSlideIn {
+  from { transform: translateY(-72vh); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.terror-slide-in {
+  animation: terrorSlideIn 0.75s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
 }

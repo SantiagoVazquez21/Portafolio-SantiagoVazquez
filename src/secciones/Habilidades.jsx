@@ -44,18 +44,17 @@ const cards = [
 function Diana({ direction, onClick, disabled }) {
     return (
         <button
-            id={`diana-skills-${direction}`}
             onClick={onClick}
             disabled={disabled}
-            className={`relative w-14 h-14 flex-shrink-0 flex items-center justify-center transition-all duration-200
+            className={`diana-btn relative w-14 h-14 flex-shrink-0 flex items-center justify-center transition-all duration-200
                 ${disabled ? 'opacity-20 cursor-default' : 'opacity-80 hover:opacity-100 hover:scale-110'}`}
         >
-            <div className="absolute w-14 h-14 rounded-full border-2 border-[#00ff66]/30" />
-            <div className="absolute w-9 h-9 rounded-full border border-[#00ff66]/50" />
-            <div className="absolute w-4 h-4 rounded-full border border-[#00ff66]/70" />
-            <span className="text-[#00ff66] font-bold z-10 text-lg">
-                {direction === 'left' ? '←' : '→'}
-            </span>
+            <img
+                src="/sprites/Diana.png"
+                alt=""
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{ transform: direction === 'left' ? 'scaleX(-1)' : undefined }}
+            />
         </button>
     )
 }

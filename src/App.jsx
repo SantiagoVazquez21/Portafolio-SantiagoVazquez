@@ -18,8 +18,10 @@ export default function App() {
 
   const addKill = (seccion) => {
     const found = secciones.find(s => s.path === `/${seccion}`)
+    // found es null cuando es 'boton' o 'hero' — labels especiales del sistema de secciones
+    const label = found?.label ?? (seccion === 'hero' ? 'Hero' : 'Boton')
     const id = Date.now()
-    setKills(prev => [...prev, {id, seccion, label: found.label }])
+    setKills(prev => [...prev, { id, seccion, label }])
     setTimeout(() => {
       setKills(prev => prev.filter(k => k.id !== id))
     }, 3000)

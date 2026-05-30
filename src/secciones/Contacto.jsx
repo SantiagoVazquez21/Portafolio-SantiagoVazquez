@@ -82,6 +82,7 @@ export default function Contacto() {
 
                 {/* Botón enviar */}
                 <button
+                    data-kill
                     type="submit"
                     disabled={status === 'sending'}
                     className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold text-sm

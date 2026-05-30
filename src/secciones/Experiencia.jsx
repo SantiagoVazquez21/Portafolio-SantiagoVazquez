@@ -102,6 +102,7 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                     <div className="mt-4 pt-4 border-t border-white/5">
                         {certUrl ? (
                             <a
+                                data-kill
                                 href={certUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"

@@ -118,11 +118,14 @@ function Game({ onKill }) {
 
         // Usamos window mousedown porque KAPLAY no detecta clicks con elementos DOM encima
         const onMouseDown = () => {
+            // Si el usuario scrolleó fuera del hero, el SectionShooter se encarga
+            if (window.scrollY > window.innerHeight * 0.7) return
+
             playShot()
             if (!terrorRef) return
 
             // Verificamos al momento del click si el cursor está sobre un botón de sección.
-            // Si es así, disparamos el sonido y el scroll inmediatamente sin esperar que llegue la bala.
+            // Usamos 'boton' como label genérico para el killfeed en vez del ID de sección.
             const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
             for (const id of secciones) {
                 const btn = document.getElementById(`btn-${id}`)
@@ -142,8 +145,8 @@ function Game({ onKill }) {
             const w = terrorRef.width
             const h = terrorRef.height
             const canion = directionRef === 1
-                ? { x: w * 0.85, y: h * 0.38 }   // mirando derecha: cañón en el lado derecho
-                : { x: w * 0.15, y: h * 0.38 }   // mirando izquierda: cañón en el lado izquierdo
+                ? { x: w * 0.95, y: h * 0.24 }   // mirando derecha: cañón en el lado derecho
+                : { x: w * 0.05, y: h * 0.24 }   // mirando izquierda: cañón en el lado izquierdo
 
             const spawnX = terrorRef.pos.x + canion.x
             const spawnY = terrorRef.pos.y + canion.y

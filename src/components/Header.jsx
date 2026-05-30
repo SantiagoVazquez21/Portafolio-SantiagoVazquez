@@ -13,7 +13,7 @@ export default function Header() {
             <div className="flex items-center h-20">
 
                 {/* Columna izquierda — espeja el ancho de la columna Terror */}
-                <div className="w-24 flex-shrink-0" />
+                <div className="w-72 flex-shrink-0" />
 
                 {/* Área de contenido central — logo izquierda, nav derecha */}
                 <div className="flex-1 flex items-center justify-between px-8">
@@ -40,7 +40,7 @@ export default function Header() {
                 </div>
 
                 {/* Columna derecha — espeja el ancho de la columna Logo */}
-                <div className="w-24 flex-shrink-0" />
+                <div className="w-72 flex-shrink-0" />
 
             </div>
         </div>
