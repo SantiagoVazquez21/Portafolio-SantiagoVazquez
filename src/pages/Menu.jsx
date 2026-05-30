@@ -4,6 +4,7 @@ import SobreMi from '../secciones/SobreMi';
 import Habilidades from '../secciones/Habilidades';
 import Proyectos from '../secciones/Proyectos';
 import Experiencia from '../secciones/Experiencia';
+import Contacto from '../secciones/Contacto';
 
 export default function Menu({ onKill }) {
 
@@ -79,7 +80,7 @@ export default function Menu({ onKill }) {
                         Terror
                     </div>
                     <div className="flex-1 flex justify-center pt-16">
-                        <h2 className="text-white text-4xl">Contacto</h2>
+                        <Contacto />
                     </div>
                     <div className="w-24 flex flex-col items-center justify-center gap-4 border-l border-white/10">
                         Logo
