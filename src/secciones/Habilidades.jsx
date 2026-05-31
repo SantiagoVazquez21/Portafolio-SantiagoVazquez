@@ -44,15 +44,13 @@ function Diana({ direction, onClick, disabled }) {
         <button
             onClick={onClick}
             disabled={disabled}
-            data-diana-dir={direction}
-            className={`diana-btn relative w-14 h-14 flex-shrink-0 flex items-center justify-center transition-transform duration-200
-                ${disabled ? 'opacity-20 cursor-default' : 'hover:scale-110'}`}
+            className={`diana-btn relative w-14 h-14 flex-shrink-0 flex items-center justify-center transition-all duration-200
+                ${disabled ? 'opacity-20 cursor-default' : 'opacity-80 hover:opacity-100 hover:scale-110'}`}
         >
             <img
                 src="/sprites/Diana.png"
                 alt=""
-                className={`absolute inset-0 w-full h-full object-contain
-                    ${!disabled ? 'diana-breathe' : ''}`}
+                className="absolute inset-0 w-full h-full object-contain"
                 style={{ transform: direction === 'left' ? 'scaleX(-1)' : undefined }}
             />
         </button>

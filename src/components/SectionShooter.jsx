@@ -131,18 +131,12 @@ export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgR
         const onMouseDown = (e) => {
             // Diana: bloquea el click, spawna bala y ejecuta la acción al llegar
             if (e.target.closest('.diana-btn')) {
-                const dianaEl  = e.target.closest('.diana-btn')
-                // Capturamos la dirección (left/right) para disparar el evento correcto
-                const dianaDir = dianaEl.dataset.dianaDir
+                const dianaEl = e.target.closest('.diana-btn')
                 blockDianaRef.current = true
                 const onHit = () => {
                     playHeadShot()
                     blockDianaRef.current = false
-                    // Usamos un CustomEvent con la dirección exacta para evitar
-                    // que el click genérico dispare el botón equivocado
-                    dianaEl.dispatchEvent(
-                        new MouseEvent('click', { bubbles: true, cancelable: true })
-                    )
+                    dianaEl.click()  // dispara el onClick original de la diana
                 }
                 playShot()
                 const canion = getCanionPos(terrorImgRef, tema)
