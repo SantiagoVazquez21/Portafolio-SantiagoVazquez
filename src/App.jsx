@@ -27,9 +27,22 @@ export default function App() {
 
   return (
     <>
+      {/* Disclaimer mobile — solo visible en pantallas < 768px */}
+      <div className="fixed inset-0 z-[9999] bg-[#0B1220] flex-col items-center justify-center text-center p-8 hidden max-md:flex">
+        <img src="/sprites/LogoAntiTerror.png" alt="AIM" className="h-20 mb-6 opacity-80" />
+        <h1 className="text-2xl font-bold text-orange-400 mb-3" style={{ fontFamily: 'Rajdhani, sans-serif' }}>
+          AIM://PORTFOLIO
+        </h1>
+        <p className="text-gray-300 text-lg leading-relaxed">
+          Este portfolio está diseñado para <span className="text-orange-400 font-bold">desktop</span>.
+        </p>
+        <p className="text-gray-600 text-sm mt-3">
+          Accedé desde una computadora para la experiencia completa.
+        </p>
+      </div>
+
       <KillFeed kills={kills} />
       <Routes>
-        {/* Home eliminado — redirige directo al portfolio */}
         <Route path="/" element={<Navigate to="/menu" replace />} />
         <Route path="/menu" element={<Menu onKill={addKill} />} />
       </Routes>
