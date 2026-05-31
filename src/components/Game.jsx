@@ -9,12 +9,23 @@ if (import.meta.hot) {
 
 let kaplayInstance = null
 
-function Game({ onKill, tema = 'terror' }) {
-    const onKillRef = useRef(null);
-    const canvasRef = useRef(null);
-    const temaRef   = useRef(tema);
+function Game({ onKill, onMiss, tema = 'terror' }) {
+    const onKillRef  = useRef(null);
+    const onMissRef  = useRef(null);
+    const canvasRef  = useRef(null);
+    const temaRef    = useRef(tema);
+    const miraLineaH = useRef(null);
+    const miraLineaV = useRef(null);
     onKillRef.current = onKill;
+    onMissRef.current = onMiss;
     temaRef.current   = tema;
+
+    // Actualiza el color de la mira cuando cambia el tema
+    useEffect(() => {
+        const color = tema === 'terror' ? '#CC2222' : '#2244FF'
+        if (miraLineaH.current) miraLineaH.current.style.background = color
+        if (miraLineaV.current) miraLineaV.current.style.background = color
+    }, [tema])
 
     useEffect(() => {
         document.documentElement.classList.add('game-active')
@@ -36,7 +47,7 @@ function Game({ onKill, tema = 'terror' }) {
             position: absolute;
             width: 30px;
             height: 2px;
-            background: #09ff00;
+            background: ${temaRef.current === 'terror' ? '#CC2222' : '#2244FF'};
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -46,7 +57,7 @@ function Game({ onKill, tema = 'terror' }) {
             position: absolute;
             width: 2px;
             height: 30px;
-            background: #09ff00;
+            background: ${temaRef.current === 'terror' ? '#CC2222' : '#2244FF'};
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -54,6 +65,8 @@ function Game({ onKill, tema = 'terror' }) {
         mira.appendChild(lineaH)
         mira.appendChild(lineaV)
         document.body.appendChild(mira)
+        miraLineaH.current = lineaH
+        miraLineaV.current = lineaV
 
         let mouseX = 0
         let mouseY = 0
@@ -117,7 +130,10 @@ function Game({ onKill, tema = 'terror' }) {
         }
 
         const playShot = () => {
-            const audio = new Audio('/sonidos/CS2_AK47_Sonido.mp3')
+            const src = temaRef.current === 'terror'
+                ? '/sonidos/CS2_AK47_Sonido.mp3'
+                : '/sonidos/M4A1-S_Sonido.mp3'
+            const audio = new Audio(src)
             audio.volume = 0.2
             audio.play()
         }
@@ -132,6 +148,8 @@ function Game({ onKill, tema = 'terror' }) {
 
             // Verificamos al momento del click si el cursor está sobre un botón de sección.
             // Usamos 'boton' como label genérico para el killfeed en vez del ID de sección.
+            let hitBtn = false
+            let pendingHit = null
             const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
             for (const id of secciones) {
                 const btn = document.getElementById(`btn-${id}`)
@@ -139,20 +157,32 @@ function Game({ onKill, tema = 'terror' }) {
                 const rect = btn.getBoundingClientRect()
                 if (mouseX >= rect.left && mouseX <= rect.right &&
                     mouseY >= rect.top  && mouseY <= rect.bottom) {
-                    HeadShot()
-                    document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
-                    onKillRef.current(id)
+                    // Guardamos la acción para ejecutarla cuando la bala llegue
+                    const capturedId = id
+                    pendingHit = () => {
+                        HeadShot()
+                        document.getElementById(capturedId).scrollIntoView({ behavior: 'smooth' })
+                        onKillRef.current(capturedId)
+                    }
+                    hitBtn = true
                     break
                 }
             }
+            if (!hitBtn) {
+                const elemBajo = document.elementFromPoint(mouseX, mouseY)
+                if (elemBajo?.closest('button, a')) {
+                    HeadShot()
+                } else {
+                    onMissRef.current?.()
+                }
+            }
 
-            // Offset del cañón relativo al top-left del sprite.
-            // Ajustá estos valores si la bala no sale exactamente del cañón.
             const w = terrorRef.width
             const h = terrorRef.height
+            const esCT = temaRef.current === 'antiterror'
             const canion = directionRef === 1
-                ? { x: w * 0.95, y: h * 0.24 }   // mirando derecha: cañón en el lado derecho
-                : { x: w * 0.05, y: h * 0.24 }   // mirando izquierda: cañón en el lado izquierdo
+                ? { x: w * (esCT ? 1.01 : 0.95), y: h * (esCT ? 0.03 : 0.24) }
+                : { x: w * (esCT ? -0.01 : 0.05), y: h * (esCT ? 0.03 : 0.24) }
 
             const spawnX = terrorRef.pos.x + canion.x
             const spawnY = terrorRef.pos.y + canion.y
@@ -165,15 +195,14 @@ function Game({ onKill, tema = 'terror' }) {
             const velX = (dx / dist) * speed
             const velY = (dy / dist) * speed
 
-            // Rect invisible — solo sirve para rastrear la posición de la bala
             const bala = k.add([
                 k.rect(1, 1),
                 k.pos(spawnX, spawnY),
                 k.opacity(0),
                 k.anchor('center'),
             ])
-            // Guardamos el destino exacto donde clickeó el usuario
-            balas.push({ obj: bala, velX, velY, targetX: mouseX, targetY: mouseY })
+            // onHit se ejecuta cuando la bala llega al destino
+            balas.push({ obj: bala, velX, velY, targetX: mouseX, targetY: mouseY, onHit: pendingHit })
         }
         window.addEventListener('mousedown', onMouseDown)
 
@@ -188,7 +217,6 @@ function Game({ onKill, tema = 'terror' }) {
                 k.add([
                     {
                         draw() {
-                            // Cambia el fondo según el tema activo — reactivo via temaRef
                             k.drawSprite({
                                 sprite: temaRef.current === 'terror' ? "FondoTerror" : "FondoAntiTerror",
                                 pos: k.vec2(0, 0),
@@ -323,7 +351,8 @@ function Game({ onKill, tema = 'terror' }) {
 
                     // Si el avance de este frame supera la distancia restante → llegó al destino
                     if (stepDist >= distToTarget) {
-                        bulletHoles.push({ x: b.targetX, y: b.targetY, born: k.time() })
+                        if (b.onHit) b.onHit()  // headshot + scroll al llegar
+                        else bulletHoles.push({ x: b.targetX, y: b.targetY, born: k.time() })
                         b.obj.destroy()
                         balas.splice(i, 1)
                         continue

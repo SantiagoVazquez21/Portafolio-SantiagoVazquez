@@ -130,24 +130,24 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
             ref={ref}
             className={`
                 bg-white/5 border border-white/10 rounded-xl overflow-hidden
-                hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,255,102,0.06)]
+                hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(255,107,26,0.08)]
                 transition-all duration-500
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
             `}
             style={{ transitionDelay: `${delay}ms` }}
         >
             {/* Línea de acento superior */}
-            <div className="h-[3px] bg-gradient-to-r from-[#00ff66] to-[#00ff66]/10" />
+            <div className="h-[3px] bg-gradient-to-r from-orange-400 to-orange-400/10" />
 
             <div className="p-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#00ff66]/10 border border-[#00ff66]/20 flex items-center justify-center flex-shrink-0">
-                            <FaBriefcase className="text-[#00ff66]" />
+                        <div className="w-10 h-10 rounded-lg bg-orange-400/10 border border-orange-400/20 flex items-center justify-center flex-shrink-0">
+                            <FaBriefcase className="text-orange-400" />
                         </div>
                         <div>
                             <h3 className="text-white font-bold">{empresa}</h3>
-                            <p className="text-[#00ff66]/80 text-sm">{rol}</p>
+                            <p className="text-orange-400/80 text-sm">{rol}</p>
                             <p className="text-gray-600 text-xs mt-0.5">{area} · {tipo}</p>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
                     <ul className="mt-4 space-y-2 pl-1">
                         {logros.map((logro, i) => (
                             <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                                <span className="text-[#00ff66]/50 mt-1 flex-shrink-0">▸</span>
+                                <span className="text-orange-400/50 mt-1 flex-shrink-0">▸</span>
                                 {logro}
                             </li>
                         ))}

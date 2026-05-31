@@ -9,20 +9,35 @@ const NAV_IDS = ['btn-sobremi', 'btn-habilidades', 'btn-proyectos', 'btn-experie
 // Calcula la posición del cañón a partir del ref React de la imagen del Terror.
 // Usar un ref en vez de querySelector garantiza que tenemos el elemento correcto
 // y evita problemas de timing o selectores incorrectos.
-function getCanionPos(terrorImgRef) {
+function getCanionPos(terrorImgRef, tema) {
     const img = terrorImgRef?.current
     if (!img) return null
     const rect = img.getBoundingClientRect()
     if (!rect.width || !rect.height) return null
+    // TT y CT tienen el arma a distinta altura en el sprite
+    const esCT = tema === 'antiterror'
     return {
-        x: rect.left + rect.width  * 0.95,  // cañón en el lado derecho del sprite
-        y: rect.top  + rect.height * 0.24,  // altura aproximada del arma
+        x: rect.left + rect.width  * (esCT ? 1.01 : 0.95),
+        y: rect.top  + rect.height * (esCT ? 0.03 : 0.24),
     }
 }
 
-export default function SectionShooter({ enSecciones, onKill, terrorImgRef }) {
-    const canvasRef  = useRef(null)
-    const bulletsRef = useRef([])  // balas en vuelo: { x, y, velX, velY, targetX, targetY }
+export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgRef, tema = 'antiterror' }) {
+    const canvasRef       = useRef(null)
+    const bulletsRef      = useRef([])
+    const blockDianaRef   = useRef(false)  // bloquea el click de diana mientras la bala viaja
+
+    // Interceptor en capture phase — bloquea el click de la diana si hay una bala en vuelo hacia ella
+    useEffect(() => {
+        const intercept = (e) => {
+            if (blockDianaRef.current && e.target.closest('.diana-btn')) {
+                e.stopPropagation()
+                e.preventDefault()
+            }
+        }
+        window.addEventListener('click', intercept, { capture: true })
+        return () => window.removeEventListener('click', intercept, { capture: true })
+    }, [])
 
     // Resize del canvas al viewport
     useEffect(() => {
@@ -60,8 +75,9 @@ export default function SectionShooter({ enSecciones, onKill, terrorImgRef }) {
                 const dyT         = b.targetY - b.y
                 const distToTarget = Math.sqrt(dxT * dxT + dyT * dyT)
 
-                // Si el avance supera la distancia restante → llegó al destino, sin agujero
+                // Llegó al destino — ejecuta la acción pendiente (headshot, scroll, kill)
                 if (stepDist >= distToTarget) {
+                    if (b.onHit) b.onHit()
                     bulletsRef.current.splice(i, 1)
                     continue
                 }
@@ -108,35 +124,75 @@ export default function SectionShooter({ enSecciones, onKill, terrorImgRef }) {
         if (!enSecciones) return
 
         const playShot = () => {
-            const a = new Audio('/sonidos/CS2_AK47_Sonido.mp3'); a.volume = 0.2; a.play()
+            const src = tema === 'terror' ? '/sonidos/CS2_AK47_Sonido.mp3' : '/sonidos/M4A1-S_Sonido.mp3'
+            const a = new Audio(src); a.volume = 0.2; a.play()
         }
         const playHeadShot = () => {
             const a = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3'); a.volume = 0.2; a.play()
         }
 
         const onMouseDown = (e) => {
-            // Diana: headshot sin killfeed, sin tracer
-            if (e.target.closest('.diana-btn')) { playHeadShot(); return }
-
-            // Botón "Inicio" → headshot + killfeed "Hero", sin tracer
-            if (e.target.closest('#btn-inicio')) { playHeadShot(); onKill('hero'); return }
-
-            // Nav buttons del header → headshot + killfeed con el nombre de la sección
-            for (const btnId of NAV_IDS) {
-                if (e.target.closest(`#${btnId}`)) {
+            // Diana: bloquea el click, spawna bala y ejecuta la acción al llegar
+            if (e.target.closest('.diana-btn')) {
+                const dianaEl = e.target.closest('.diana-btn')
+                blockDianaRef.current = true
+                const onHit = () => {
                     playHeadShot()
-                    onKill(btnId.replace('btn-', ''))  // 'btn-sobremi' → 'sobremi'
-                    return
+                    blockDianaRef.current = false
+                    dianaEl.click()  // dispara el onClick original de la diana
+                }
+                playShot()
+                const canion = getCanionPos(terrorImgRef, tema)
+                if (!canion) { blockDianaRef.current = false; return }
+                const dx = e.clientX - canion.x
+                const dy = e.clientY - canion.y
+                const dist = Math.sqrt(dx*dx + dy*dy)
+                if (dist === 0) { blockDianaRef.current = false; return }
+                bulletsRef.current.push({
+                    x: canion.x, y: canion.y,
+                    velX: (dx/dist) * SPEED, velY: (dy/dist) * SPEED,
+                    targetX: e.clientX, targetY: e.clientY,
+                    onHit,
+                })
+                return
+            }
+
+            // Determinamos qué acción ejecutar cuando la bala llegue
+            let onHit = null
+
+            if (e.target.closest('#btn-inicio')) {
+                onHit = () => {
+                    playHeadShot()
+                    onKill('hero')
+                    document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })
+                }
+            } else {
+                for (const btnId of NAV_IDS) {
+                    if (e.target.closest(`#${btnId}`)) {
+                        const sectionId = btnId.replace('btn-', '')
+                        onHit = () => {
+                            playHeadShot()
+                            onKill(sectionId)
+                            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' })
+                        }
+                        break
+                    }
                 }
             }
 
-            // Elementos marcados explícitamente con data-kill → headshot + killfeed "Boton", sin tracer
-            // Usamos data-kill en GitHub links, botón enviar, etc. para evitar falsos positivos
-            if (e.target.closest('[data-kill]')) { playHeadShot(); onKill('boton'); return }
+            if (!onHit && e.target.closest('[data-kill]')) {
+                onHit = () => { playHeadShot(); onKill('boton') }
+            }
 
-            // Click en zona libre → disparo normal con tracer
+            if (!onHit && e.target.closest('button, a')) {
+                onHit = () => playHeadShot()
+            }
+
+            // Siempre disparamos — el onHit se ejecuta al llegar
             playShot()
-            const canion = getCanionPos(terrorImgRef)
+            if (!onHit) onMiss?.()
+
+            const canion = getCanionPos(terrorImgRef, tema)
             if (!canion) return
 
             const dx   = e.clientX - canion.x
@@ -150,6 +206,7 @@ export default function SectionShooter({ enSecciones, onKill, terrorImgRef }) {
                 velY: (dy / dist) * SPEED,
                 targetX: e.clientX,
                 targetY: e.clientY,
+                onHit,  // se ejecuta cuando la bala llega al destino
             })
         }
 

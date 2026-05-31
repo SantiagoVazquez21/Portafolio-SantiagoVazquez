@@ -29,16 +29,25 @@ function Seccion({ id, alt = false, children, centered = false, className = '' }
 
 export default function Menu({ onKill }) {
     const [enSecciones, setEnSecciones] = useState(false)
+    const [killCount,   setKillCount]   = useState(0)
+    const [hp,          setHp]          = useState(100)
     const terrorImgRef = useRef(null)
 
-    // Lee el tema guardado en localStorage, por defecto 'terror'
-    const [tema, setTema] = useState(() => localStorage.getItem('aim-tema') ?? 'terror')
+    const handleMiss = () => setHp(h => Math.max(0, h - 10))
+
+    const [tema, setTema] = useState(() => localStorage.getItem('aim-tema') ?? 'antiterror')
 
     const toggleTema = () => setTema(t => {
         const nuevo = t === 'terror' ? 'antiterror' : 'terror'
-        localStorage.setItem('aim-tema', nuevo)  // persiste el tema para la próxima visita
+        localStorage.setItem('aim-tema', nuevo)
         return nuevo
     })
+
+    // Wrapper que cuenta kills para el HUD del hero
+    const handleKill = (id) => {
+        setKillCount(c => c + 1)
+        onKill(id, tema)
+    }
 
     // Aplica la clase de tema al body para que las variables CSS cascasen globalmente
     useEffect(() => {
@@ -65,7 +74,7 @@ export default function Menu({ onKill }) {
             {/* Sprite fijo en el margen izquierdo — cambia con el tema */}
             {enSecciones && (
                 <div className="fixed left-0 bottom-4 z-40 w-72 flex justify-center pointer-events-none terror-slide-in">
-                    <img ref={terrorImgRef} src={spriteMargen} alt="" className="w-64" />
+                    <img ref={terrorImgRef} src={spriteMargen} alt="" className="h-72 w-auto" />
                 </div>
             )}
 
@@ -73,19 +82,67 @@ export default function Menu({ onKill }) {
                 <div className="fixed right-0 bottom-4 z-40 w-72 flex justify-center slide-in-right">
                     <button
                         id="btn-inicio"
-                        onClick={() => document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })}
-                        className="flex flex-col items-center gap-1.5 px-6 py-3 border border-orange-400/50 hover:border-orange-400 bg-[#0a0a0c]/90 hover:bg-orange-400/10 text-orange-400 rounded-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,107,26,0.25)]"
+                        className="flex flex-col items-center gap-2 px-8 py-4 border border-orange-400/50 hover:border-orange-400 bg-[#0a0a0c]/90 hover:bg-orange-400/10 text-orange-400 rounded-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,107,26,0.25)]"
                     >
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Volver al Hero</span>
+                        <span className="text-sm uppercase tracking-[0.2em] font-bold">Volver al Hero</span>
                     </button>
                 </div>
             )}
 
-            <SectionShooter enSecciones={enSecciones} onKill={onKill} terrorImgRef={terrorImgRef} />
+            <SectionShooter enSecciones={enSecciones} onKill={handleKill} onMiss={handleMiss} terrorImgRef={terrorImgRef} tema={tema} />
 
             <section id="hero" className="h-screen relative overflow-hidden"
                 style={{ backgroundColor: 'var(--theme-bg)' }}>
-                <Game onKill={onKill} tema={tema} />
+                <Game onKill={handleKill} onMiss={handleMiss} tema={tema} />
+
+                {/* Overlay del hero — colores fijos para que se vea en cualquier fondo */}
+                <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between px-12 pb-10 pt-24">
+
+                    {/* Centro — nombre y rol con backdrop para legibilidad */}
+                    <div className="flex-1 flex items-center justify-center">
+                        <div className="text-center bg-black/40 backdrop-blur-sm px-12 py-8 rounded-2xl border border-white/10">
+                            <h1 className="text-8xl font-bold tracking-tight text-white anim-fade drop-shadow-lg"
+                                style={{ animationDelay: '0s', fontFamily: 'Rajdhani, sans-serif' }}>
+                                Santiago Elian Vazquez
+                            </h1>
+                            <p className="text-orange-400 text-4xl mt-3 font-bold tracking-wide anim-fade"
+                                style={{ animationDelay: '0.2s' }}>
+                                Desarrollador Junior
+                            </p>
+                            <p className="text-gray-200 text-lg mt-4 anim-fade"
+                                style={{ animationDelay: '0.4s' }}>
+                                Bienvenido a mi portafolio, un espacio donde busco combinar creatividad y profesionalismo
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* HUD inferior — estilo CS2, colores fijos */}
+                    <div className="flex items-end justify-between">
+
+                        {/* Izquierda: HP bar dinámica */}
+                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 flex flex-col gap-2">
+                            <span className="text-sm uppercase tracking-widest font-bold text-orange-400">
+                                ♥ {hp}
+                            </span>
+                            <div className="w-52 h-2 rounded-full bg-white/10 overflow-hidden">
+                                <div className="h-full rounded-full bg-orange-400 transition-all duration-300"
+                                    style={{ width: `${hp}%` }} />
+                            </div>
+                            {hp === 0 && (
+                                <span className="text-xs uppercase tracking-widest font-semibold text-red-400">
+                                    Te falta aim
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Derecha: kill counter */}
+                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 text-right">
+                            <p className="text-xs uppercase tracking-widest text-white font-bold">Secciones visitadas</p>
+                            <p className="text-6xl font-bold text-orange-400 mt-1">{killCount}</p>
+                        </div>
+
+                    </div>
+                </div>
             </section>
 
             <Seccion id="sobremi"                              centered><SobreMi /></Seccion>

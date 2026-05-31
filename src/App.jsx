@@ -1,7 +1,6 @@
-import {Routes, Route} from 'react-router-dom'
-import {useState} from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useState } from 'react';
 import KillFeed from './components/KillFeed';
-import Home from './pages/Home'
 import Menu from './pages/Menu'
 
 export default function App() {
@@ -9,19 +8,18 @@ export default function App() {
   const [kills, setKills] = useState([]);
 
   const secciones = [
-    { path: '/sobremi', label: 'Sobre Mí' },
-    { path: '/habilidades', label: 'Habilidades' },
-    { path: '/proyectos', label: 'Proyectos' },
-    { path: '/experiencia', label: 'Experiencia' },
-    { path: '/contacto', label: 'Contacto' }
+    { path: '/sobremi',     label: 'Sobre Mí'    },
+    { path: '/habilidades', label: 'Habilidades'  },
+    { path: '/proyectos',   label: 'Proyectos'    },
+    { path: '/experiencia', label: 'Experiencia'  },
+    { path: '/contacto',    label: 'Contacto'     }
   ];
 
-  const addKill = (seccion) => {
+  const addKill = (seccion, tema = 'antiterror') => {
     const found = secciones.find(s => s.path === `/${seccion}`)
-    // found es null cuando es 'boton' o 'hero' — labels especiales del sistema de secciones
     const label = found?.label ?? (seccion === 'hero' ? 'Hero' : 'Boton')
     const id = Date.now()
-    setKills(prev => [...prev, { id, seccion, label }])
+    setKills(prev => [...prev, { id, seccion, label, tema }])
     setTimeout(() => {
       setKills(prev => prev.filter(k => k.id !== id))
     }, 3000)
@@ -31,7 +29,8 @@ export default function App() {
     <>
       <KillFeed kills={kills} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* Home eliminado — redirige directo al portfolio */}
+        <Route path="/" element={<Navigate to="/menu" replace />} />
         <Route path="/menu" element={<Menu onKill={addKill} />} />
       </Routes>
     </>

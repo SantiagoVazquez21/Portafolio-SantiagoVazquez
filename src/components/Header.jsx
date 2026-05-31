@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 export default function Header({ tema = 'terror', onToggleTema }) {
     const [flipping, setFlipping] = useState(false)
+    const [glowing,  setGlowing]  = useState(false)
 
     const secciones = [
         { id: 'sobremi',     label: 'Sobre mí'    },
@@ -14,11 +15,16 @@ export default function Header({ tema = 'terror', onToggleTema }) {
     const handleLogoClick = () => {
         if (flipping) return
         setFlipping(true)
-        // Cambiamos el tema al medio giro (300ms) — cuando el logo está de canto
-        // el usuario no puede ver cuál de los dos logos aparece, así se siente natural
+        setGlowing(false)
+        // Cambia el tema al medio giro — el logo está de canto y no se ve cuál es
         setTimeout(() => onToggleTema?.(), 300)
-        // Quitamos la clase de animación al terminar para poder repetirla
-        setTimeout(() => setFlipping(false), 620)
+        // Al terminar el flip: sacamos el flip y disparamos el glow del nuevo tema
+        setTimeout(() => {
+            setFlipping(false)
+            setGlowing(true)
+        }, 620)
+        // Apagamos el glow después de que termina su animación
+        setTimeout(() => setGlowing(false), 1350)
     }
 
     const logoSrc = tema === 'terror'
@@ -36,13 +42,13 @@ export default function Header({ tema = 'terror', onToggleTema }) {
                     {/* Logo clickeable — coin-flip horizontal al hacer clic */}
                     <button
                         onClick={handleLogoClick}
-                        className="focus:outline-none"
+                        className="focus:outline-none transition-all duration-200 hover:scale-110 hover:drop-shadow-[0_0_10px_var(--theme-primary)]"
                         title="Cambiar lado"
                     >
                         <img
                             src={logoSrc}
                             alt="Logo"
-                            className={`h-12 w-auto object-contain transition-none ${flipping ? 'logo-flip' : ''}`}
+                            className={`h-12 w-auto object-contain transition-none ${flipping ? 'logo-flip' : ''} ${glowing ? 'logo-glow' : ''}`}
                         />
                     </button>
 
@@ -51,11 +57,13 @@ export default function Header({ tema = 'terror', onToggleTema }) {
                             <button
                                 key={s.id}
                                 id={`btn-${s.id}`}
-                                onClick={() => document.getElementById(s.id).scrollIntoView({ behavior: 'smooth' })}
-                                className="relative text-[11px] font-medium uppercase tracking-widest text-gray-500 hover:text-white transition-colors duration-200 group"
+                                className="px-4 py-2.5 rounded text-xs font-bold uppercase tracking-widest
+                                    border border-orange-400/30 text-orange-400/60
+                                    hover:border-orange-400 hover:text-orange-400 hover:bg-orange-400/10
+                                    hover:shadow-[0_0_12px_rgba(255,165,0,0.2)]
+                                    transition-all duration-200"
                             >
                                 {s.label}
-                                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-orange-400 group-hover:w-full transition-all duration-300" />
                             </button>
                         ))}
                     </div>
