@@ -18,11 +18,11 @@ function Seccion({ id, alt = false, children, centered = false, className = '' }
             className={`flex flex-col scroll-mt-[80px] ${centered ? 'min-h-[calc(100vh-80px)]' : ''} ${className}`}
         >
             <div className="flex flex-1">
-                <div className="w-72 flex-shrink-0 border-r border-white/10" />
+                <div className="w-72 flex-shrink-0" />
                 <div className={`flex-1 flex justify-center ${centered ? 'items-center' : 'py-6'}`}>
                     {children}
                 </div>
-                <div className="w-72 flex-shrink-0 border-l border-white/10" />
+                <div className="w-72 flex-shrink-0" />
             </div>
         </section>
     )
