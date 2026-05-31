@@ -38,12 +38,6 @@ const experiencia = [
     },
 ]
 
-// Detecta cuando el elemento entra al viewport y dispara la animación de entrada.
-// Se desconecta solo después de la primera vez para no seguir observando.
-
-    return [ref, inView]
-}
-
 function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0 }) {
     const [ref, inView] = useInView()
 
