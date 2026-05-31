@@ -120,6 +120,24 @@ body {
   animation: slideInRight 0.6s ease-out forwards;
 }
 
+/* Scoreboard y modales: aparece con scale suave */
+@keyframes scaleIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+/* HUD izquierdo del hero: entra desde la izquierda */
+@keyframes slideInLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
 /* Logo header: coin-flip 3D al cambiar de tema */
 @keyframes coinFlip {
   0%   { transform: perspective(400px) rotateY(0deg)   scale(1);   }

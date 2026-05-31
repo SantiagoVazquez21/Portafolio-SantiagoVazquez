@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useInView } from '../hooks/useInView'
 const MAX_VISIBLE = 4
 
 // Cuando tengas las imágenes, agregá img: '/logos/html.png' al objeto
@@ -56,7 +57,8 @@ function Diana({ direction, onClick, disabled }) {
     )
 }
 
-function SkillCard({ titulo, logos }) {
+function SkillCard({ titulo, logos, delay = 0 }) {
+    const [cardRef, cardInView] = useInView()
     const trackRef = useRef(null)
     const [trackWidth, setTrackWidth] = useState(0)
     const [idx, setIdx] = useState(0)
@@ -83,7 +85,12 @@ function SkillCard({ titulo, logos }) {
     }, [])
 
     return (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+        <div
+            ref={cardRef}
+            className={`bg-white/5 border border-white/10 rounded-xl p-5 transition-all duration-500
+                ${cardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: `${delay}ms` }}
+        >
             <h3 className="text-white font-bold mb-2 text-base">{titulo}</h3>
 
             <div className="flex items-center gap-4">
@@ -132,8 +139,8 @@ export default function Habilidades() {
     return (
         <div className="flex flex-col gap-3 max-w-5xl mx-auto px-8 py-2">
             <h2 className="text-4xl font-bold text-orange-400">Habilidades</h2>
-            {cards.map(card => (
-                <SkillCard key={card.titulo} titulo={card.titulo} logos={card.logos} />
+            {cards.map((card, i) => (
+                <SkillCard key={card.titulo} titulo={card.titulo} logos={card.logos} delay={i * 100} />
             ))}
         </div>
     )

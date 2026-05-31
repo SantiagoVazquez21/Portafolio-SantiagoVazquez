@@ -120,8 +120,9 @@ export default function Menu({ onKill }) {
                     {/* HUD inferior — estilo CS2, colores fijos */}
                     <div className="flex items-end justify-between">
 
-                        {/* Izquierda: HP bar dinámica */}
-                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 flex flex-col gap-2">
+                        {/* Izquierda: HP bar — entra desde la izquierda */}
+                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 flex flex-col gap-2 slide-in-left"
+                            style={{ animationDelay: '0.7s', animationFillMode: 'both', opacity: 0 }}>
                             <span className="text-sm uppercase tracking-widest font-bold text-orange-400">
                                 ♥ {hp}
                             </span>
@@ -136,8 +137,9 @@ export default function Menu({ onKill }) {
                             )}
                         </div>
 
-                        {/* Derecha: kill counter */}
-                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 text-right">
+                        {/* Derecha: kill counter — entra desde la derecha */}
+                        <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 text-right slide-in-right"
+                            style={{ animationDelay: '0.9s', animationFillMode: 'both', opacity: 0 }}>
                             <p className="text-xs uppercase tracking-widest text-white font-bold">Secciones visitadas</p>
                             <p className="text-6xl font-bold text-orange-400 mt-1">{killCount}</p>
                         </div>

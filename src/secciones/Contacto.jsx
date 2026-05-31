@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useInView } from '../hooks/useInView'
 import emailjs from '@emailjs/browser'
 import { FaPaperPlane, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa'
 
@@ -8,8 +9,8 @@ const PUBLIC_KEY  = 'OdcvPWJSKNcTu61Is'
 
 export default function Contacto() {
     const formRef = useRef(null)
-    // status controla qué muestra el botón y el feedback: idle | sending | success | error
     const [status, setStatus] = useState('idle')
+    const [sectionRef, inView] = useInView(0.1)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -26,17 +27,26 @@ export default function Contacto() {
         }
     }
 
+    // Genera clases de animación escalonada para cada campo
+    const stagger = (i) => `transition-all duration-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`
+    const delay   = (i) => ({ transitionDelay: `${i * 100}ms` })
+
     return (
-        <div className="w-full max-w-2xl mx-auto px-8 py-8">
-            <h2 className="text-4xl font-bold text-orange-400 mb-2">Contacto</h2>
-            <p className="text-gray-500 text-sm mb-8">
+        <div ref={sectionRef} className="w-full max-w-2xl mx-auto px-8 py-8">
+            <h2 className={`text-4xl font-bold text-orange-400 mb-2 transition-all duration-500
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                Contacto
+            </h2>
+            <p className={`text-gray-500 text-sm mb-8 transition-all duration-500
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                style={delay(1)}>
                 ¿Tenés una propuesta o querés charlar? Mandame un mensaje.
             </p>
 
             <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
 
                 {/* Email */}
-                <div className="flex flex-col gap-1.5">
+                <div className={`flex flex-col gap-1.5 ${stagger(0)}`} style={delay(2)}>
                     <label className="text-gray-400 text-sm">Tu email</label>
                     <input
                         type="email"
@@ -51,7 +61,7 @@ export default function Contacto() {
                 </div>
 
                 {/* Asunto */}
-                <div className="flex flex-col gap-1.5">
+                <div className={`flex flex-col gap-1.5 ${stagger(1)}`} style={delay(3)}>
                     <label className="text-gray-400 text-sm">Asunto</label>
                     <input
                         type="text"
@@ -66,7 +76,7 @@ export default function Contacto() {
                 </div>
 
                 {/* Mensaje */}
-                <div className="flex flex-col gap-1.5">
+                <div className={`flex flex-col gap-1.5 ${stagger(2)}`} style={delay(4)}>
                     <label className="text-gray-400 text-sm">Mensaje</label>
                     <textarea
                         name="message"

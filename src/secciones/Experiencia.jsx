@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useInView } from '../hooks/useInView'
 import { FaGraduationCap, FaBriefcase, FaCertificate } from 'react-icons/fa'
 
 // Clases base compartidas por FormacionCard y ExperienciaCard
@@ -40,25 +40,6 @@ const experiencia = [
 
 // Detecta cuando el elemento entra al viewport y dispara la animación de entrada.
 // Se desconecta solo después de la primera vez para no seguir observando.
-function useInView(threshold = 0.15) {
-    const ref = useRef(null)
-    const [inView, setInView] = useState(false)
-
-    useEffect(() => {
-        const el = ref.current
-        if (!el) return
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setInView(true)
-                    observer.disconnect()
-                }
-            },
-            { threshold }
-        )
-        observer.observe(el)
-        return () => observer.disconnect()
-    }, [])
 
     return [ref, inView]
 }

@@ -1,4 +1,5 @@
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { useInView } from '../hooks/useInView'
 
 const proyectos = [
     {
@@ -11,9 +12,15 @@ const proyectos = [
     },
 ]
 
-function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoUrl }) {
+function ProyectoCard({ titulo, descripcion, imagen, tecnologias, repoUrl, demoUrl, delay = 0 }) {
+    const [ref, inView] = useInView()
     return (
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden grid grid-rows-[8rem_auto] md:grid-rows-1 md:grid-cols-[2fr_3fr]">
+        <div
+            ref={ref}
+            className={`bg-white/5 border border-white/10 rounded-xl overflow-hidden grid grid-rows-[8rem_auto] md:grid-rows-1 md:grid-cols-[2fr_3fr]
+                transition-all duration-600 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            style={{ transitionDelay: `${delay}ms` }}
+        >
 
             <div className="relative overflow-hidden bg-white/5 flex items-center justify-center">
                 {imagen
@@ -69,8 +76,8 @@ export default function Proyectos() {
     return (
         <div className="flex flex-col gap-4 max-w-5xl mx-auto px-8 py-4">
             <h2 className="text-4xl font-bold text-orange-400 mb-2">Proyectos</h2>
-            {proyectos.map(p => (
-                <ProyectoCard key={p.titulo} {...p} />
+            {proyectos.map((p, i) => (
+                <ProyectoCard key={p.titulo} {...p} delay={i * 120} />
             ))}
         </div>
     )

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useInView } from '../hooks/useInView'
 import { FaGithub, FaLinkedin, FaDownload } from 'react-icons/fa'
 
 const GITHUB_URL   = 'https://github.com/SantiagoVazquez21'
@@ -17,7 +18,7 @@ function Scoreboard({ onClose }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
             onClick={onClose}>
-            <div className="bg-[#0a0a0c]/95 border border-orange-400/20 rounded-xl p-10 min-w-[680px] shadow-[0_0_40px_rgba(0,0,0,0.8)]"
+            <div className="bg-[#0a0a0c]/95 border border-orange-400/20 rounded-xl p-10 min-w-[680px] animate-scale-in shadow-[0_0_40px_rgba(0,0,0,0.8)]"
                 onClick={e => e.stopPropagation()}>
 
                 <div className="flex items-center justify-between mb-8 pb-5 border-b border-white/10">
@@ -56,6 +57,7 @@ function Scoreboard({ onClose }) {
 
 export default function SobreMi() {
     const [showStats, setShowStats] = useState(false)
+    const [sectionRef, sectionInView] = useInView(0.1)
 
     useEffect(() => {
         const onKey = (e) => {
@@ -69,10 +71,11 @@ export default function SobreMi() {
         <>
             {showStats && <Scoreboard onClose={() => setShowStats(false)} />}
 
-            <div className="flex flex-col md:flex-row items-center gap-16 max-w-5xl mx-auto px-8 py-12">
+            <div ref={sectionRef} className="flex flex-col md:flex-row items-center gap-16 max-w-5xl mx-auto px-8 py-12">
 
-                {/* Foto */}
-                <div className="flex-shrink-0 flex flex-col items-center gap-4">
+                {/* Foto — scale-in al entrar al viewport */}
+                <div className={`flex-shrink-0 flex flex-col items-center gap-4 transition-all duration-700
+                    ${sectionInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
                     <img
                         src="/foto.jpg"
                         alt="Santiago Vazquez"
@@ -90,22 +93,32 @@ export default function SobreMi() {
 
                 {/* Contenido */}
                 <div className="flex flex-col gap-5">
-                    <h2 className="text-5xl font-bold text-orange-400">Sobre Mí</h2>
+                    <h2 className={`text-5xl font-bold text-orange-400 transition-all duration-500
+                        ${sectionInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}
+                        style={{ transitionDelay: '100ms' }}>
+                        Sobre Mí
+                    </h2>
 
-                    <p className="text-gray-300 leading-relaxed text-lg">
+                    <p className={`text-gray-300 leading-relaxed text-lg transition-all duration-500
+                        ${sectionInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
+                        style={{ transitionDelay: '200ms' }}>
                         19 años, Buenos Aires. Cursando 2° año de la Tecnicatura en
                         Desarrollo de Software en el ISFT 225, con experiencia en
                         proyectos reales: desde una pasantía en la Municipalidad de
                         Caseros hasta una plataforma cloud para un cliente real.
                     </p>
-                    <p className="text-gray-300 leading-relaxed text-lg">
+                    <p className={`text-gray-300 leading-relaxed text-lg transition-all duration-500
+                        ${sectionInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
+                        style={{ transitionDelay: '300ms' }}>
                         Me muevo cómodo en JavaScript, React Native, PHP, MySQL y C#.
                         Trabajo con Scrum, Git/GitHub y tengo inglés B2.
                         Actualmente aprendiendo React y construyendo este portfolio.
                     </p>
 
-                    {/* Links y CV */}
-                    <div className="flex items-center gap-3 flex-wrap mt-1">
+                    {/* Links y CV — stagger desde abajo */}
+                    <div className={`flex items-center gap-3 flex-wrap mt-1 transition-all duration-500
+                        ${sectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                        style={{ transitionDelay: '400ms' }}>
                         <a data-kill href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
                             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20
                                 bg-white/5 hover:bg-white/10 text-white text-sm font-semibold
