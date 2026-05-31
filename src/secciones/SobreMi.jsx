@@ -7,7 +7,7 @@ const LINKEDIN_URL = 'https://www.linkedin.com/in/santiago-vazquez-b266b3374/'
 const CV_PATH      = '/CV_SantiagoElianVazquez.pdf'
 
 const stats = [
-    { label: 'Proyectos reales',    value: '1+',    desc: 'RADEP — plataforma para Magnética' },
+    { label: 'Proyectos',           value: '2',     desc: '' },
     { label: 'Tecnologías',         value: '16',    desc: 'Frontend, Backend, Herramientas'   },
     { label: 'Año de carrera',      value: '2°',    desc: 'ISFT 225 — Tecnicatura en Desarrollo de Software' },
     { label: 'Inglés',              value: 'B2',    desc: 'Nivel upper-intermediate'           },
