@@ -99,17 +99,22 @@ export default function SobreMi() {
                     <p className={`text-gray-300 leading-relaxed text-lg transition-all duration-500
                         ${sectionInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
                         style={{ transitionDelay: '200ms' }}>
-                        19 años, Buenos Aires. Cursando 2° año de la Tecnicatura en
-                        Desarrollo de Software en el ISFT 225, con experiencia en
-                        proyectos reales: desde una pasantía en la Municipalidad de
-                        Caseros hasta una plataforma cloud para un cliente real.
+                        ¡Buenas! Soy Santiago, tengo 19 años y vivo en Pablo Podestá, Buenos Aires.
+                        Me apasiona programar porque me permite resolver problemas reales con código
+                        que genera un impacto concreto, esa combinación de lógica y resultado tangible
+                        es lo que más disfruto del desarrollo.
                     </p>
                     <p className={`text-gray-300 leading-relaxed text-lg transition-all duration-500
                         ${sectionInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
                         style={{ transitionDelay: '300ms' }}>
-                        Me muevo cómodo en JavaScript, React Native, PHP, MySQL y C#.
-                        Trabajo con Scrum, Git/GitHub y tengo inglés B2.
-                        Actualmente aprendiendo React y construyendo este portfolio.
+                        Actualmente soy estudiante del 2° año de la Tecnicatura en Desarrollo de
+                        Software en el ISFT 225 y ya cuento con experiencia práctica: desarrollé una
+                        plataforma cloud para un cliente privado, completé una pasantía de 200 horas
+                        en la Municipalidad de Caseros y trabajé en un equipo con la metodología
+                        Agile Scrum. Mi stack principal es JavaScript, React, PHP y MySQL, y mi nivel
+                        actual de inglés es B2 (upper-intermediate). Busco incorporarme como dev junior,
+                        ya sea en frontend, backend o soporte, donde poder aportar, seguir creciendo
+                        y conocer a más desarrolladores.
                     </p>
 
                     <div className={`flex items-center gap-3 flex-wrap mt-1 transition-all duration-500
