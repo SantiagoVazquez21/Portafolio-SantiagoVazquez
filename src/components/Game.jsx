@@ -113,7 +113,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
         k.loadSprite("AntiTerrorDerecha",   "/sprites/AntiTerror_Izquierda.png")
         k.loadSprite("AntiTerrorIzquierda", "/sprites/AntiTerror_Derecha.png")
         k.loadSprite("AgujeroBala",         "/sprites/AgujeroBala.png")
-        k.loadSprite("FondoTerror",     "/fondos/Dust2Fondo.png")
+        k.loadSprite("FondoTerror",     "/fondos/MirageFondo.png")
         k.loadSprite("FondoAntiTerror", "/fondos/NukeFondo.png")
 
         // Estas variables viven fuera de la escena para que onMouseDown pueda accederlas
@@ -133,7 +133,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
                 ? '/sonidos/CS2_AK47_Sonido.mp3'
                 : '/sonidos/M4A1-S_Sonido.mp3'
             const audio = new Audio(src)
-            audio.volume = 0.1
+            audio.volume = 0.09
             audio.play()
         }
 
