@@ -96,7 +96,7 @@ function SkillCard({ titulo, logos, delay = 0 }) {
             <div className="flex items-center gap-4">
                 <Diana
                     direction="left"
-                    onClick={() => setIdx(i => Math.max(0, i - 1))}
+                    onClick={() => setIdx(0)}
                     disabled={idx === 0}
                 />
 

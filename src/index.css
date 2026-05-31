@@ -120,6 +120,16 @@ body {
   animation: slideInRight 0.6s ease-out forwards;
 }
 
+/* Diana — hover glow en el color del tema */
+.diana-btn:not(:disabled) img {
+  opacity: 0.7;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+.diana-btn:not(:disabled):hover img {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px var(--theme-primary));
+}
+
 /* Scoreboard y modales: aparece con scale suave */
 @keyframes scaleIn {
   from { transform: scale(0.92); opacity: 0; }

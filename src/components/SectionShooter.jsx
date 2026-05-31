@@ -122,10 +122,10 @@ export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgR
 
         const playShot = () => {
             const src = tema === 'terror' ? '/sonidos/CS2_AK47_Sonido.mp3' : '/sonidos/M4A1-S_Sonido.mp3'
-            const a = new Audio(src); a.volume = 0.2; a.play()
+            const a = new Audio(src); a.volume = 0.09; a.play()
         }
         const playHeadShot = () => {
-            const a = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3'); a.volume = 0.1; a.play()
+            const a = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3'); a.volume = 0.09; a.play()
         }
 
         const onMouseDown = (e) => {
