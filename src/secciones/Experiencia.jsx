@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { FaGraduationCap, FaBriefcase, FaCertificate } from 'react-icons/fa'
 
+// Clases base compartidas por FormacionCard y ExperienciaCard
+const CARD_BASE = 'bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1'
+
 const formacion = [
     {
         institucion: 'ISFT 225',
@@ -66,15 +69,10 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
     return (
         <div
             ref={ref}
-            className={`
-                bg-white/5 border border-white/10 rounded-xl overflow-hidden
-                hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(255,107,26,0.1)]
-                transition-all duration-500
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-            `}
+            className={`${CARD_BASE} hover:shadow-[0_8px_30px_rgba(255,107,26,0.1)]
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             style={{ transitionDelay: `${delay}ms` }}
         >
-            {/* Línea de acento superior */}
             <div className="h-[3px] bg-gradient-to-r from-orange-400 to-orange-400/10" />
 
             <div className="p-4">
@@ -128,15 +126,10 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
     return (
         <div
             ref={ref}
-            className={`
-                bg-white/5 border border-white/10 rounded-xl overflow-hidden
-                hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(255,107,26,0.08)]
-                transition-all duration-500
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-            `}
+            className={`${CARD_BASE} hover:shadow-[0_8px_30px_rgba(255,107,26,0.08)]
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             style={{ transitionDelay: `${delay}ms` }}
         >
-            {/* Línea de acento superior */}
             <div className="h-[3px] bg-gradient-to-r from-orange-400 to-orange-400/10" />
 
             <div className="p-4">

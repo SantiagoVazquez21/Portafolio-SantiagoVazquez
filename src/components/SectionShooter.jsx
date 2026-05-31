@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react'
+import { SECCIONES, BULLET_SPEED as SPEED, TRAIL_LEN, SCROLL_THRESHOLD } from '../constants'
 
-const SPEED     = 5000  // px/s — igual que en el hero
-const TRAIL_LEN = 45    // longitud del tracer en px
-
-// IDs de los botones de navegación del header
-const NAV_IDS = ['btn-sobremi', 'btn-habilidades', 'btn-proyectos', 'btn-experiencia', 'btn-contacto']
+const NAV_IDS = SECCIONES.map(s => `btn-${s.id}`)
 
 // Calcula la posición del cañón a partir del ref React de la imagen del Terror.
 // Usar un ref en vez de querySelector garantiza que tenemos el elemento correcto
@@ -212,7 +209,7 @@ export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgR
 
         window.addEventListener('mousedown', onMouseDown)
         return () => window.removeEventListener('mousedown', onMouseDown)
-    }, [enSecciones, onKill])
+    }, [enSecciones, onKill, onMiss, tema])
 
     return (
         <canvas

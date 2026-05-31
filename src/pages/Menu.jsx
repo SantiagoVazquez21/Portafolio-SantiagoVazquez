@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { SCROLL_THRESHOLD } from '../constants'
 import Game from '../components/Game';
 import SectionShooter from '../components/SectionShooter';
 import Header from '../components/Header';
@@ -57,7 +58,7 @@ export default function Menu({ onKill }) {
     }, [tema])
 
     useEffect(() => {
-        const onScroll = () => setEnSecciones(window.scrollY > window.innerHeight * 0.7)
+        const onScroll = () => setEnSecciones(window.scrollY > window.innerHeight * SCROLL_THRESHOLD)
         window.addEventListener('scroll', onScroll, { passive: true })
         return () => window.removeEventListener('scroll', onScroll)
     }, [])

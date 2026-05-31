@@ -1,16 +1,9 @@
 import { useState } from 'react'
+import { SECCIONES } from '../constants'
 
 export default function Header({ tema = 'terror', onToggleTema }) {
     const [flipping, setFlipping] = useState(false)
     const [glowing,  setGlowing]  = useState(false)
-
-    const secciones = [
-        { id: 'sobremi',     label: 'Sobre mí'    },
-        { id: 'habilidades', label: 'Habilidades'  },
-        { id: 'proyectos',   label: 'Proyectos'    },
-        { id: 'experiencia', label: 'Experiencia'  },
-        { id: 'contacto',    label: 'Contacto'     },
-    ]
 
     const handleLogoClick = () => {
         if (flipping) return
@@ -53,7 +46,7 @@ export default function Header({ tema = 'terror', onToggleTema }) {
                     </button>
 
                     <div className="flex items-center gap-10">
-                        {secciones.map(s => (
+                        {SECCIONES.map(s => (
                             <button
                                 key={s.id}
                                 id={`btn-${s.id}`}

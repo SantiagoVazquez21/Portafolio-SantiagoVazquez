@@ -36,38 +36,6 @@ body.theme-antiterror {
   --color-orange-500: #2563EB;
 }
 
-/* Coin-flip dramático: escala en el pico para dar sensación de profundidad */
-@keyframes coinFlip {
-  0%   { transform: perspective(400px) rotateY(0deg)   scale(1); }
-  25%  { transform: perspective(400px) rotateY(90deg)  scale(1.2); }
-  50%  { transform: perspective(400px) rotateY(180deg) scale(1); }
-  75%  { transform: perspective(400px) rotateY(270deg) scale(1.2); }
-  100% { transform: perspective(400px) rotateY(360deg) scale(1); }
-}
-.logo-flip {
-  animation: coinFlip 0.6s ease-in-out forwards;
-}
-
-/* Glow de revelación post-flip — usa el color del tema activo */
-@keyframes logoGlow {
-  0%   { filter: brightness(1)   drop-shadow(0 0 0px transparent); }
-  35%  { filter: brightness(2)   drop-shadow(0 0 18px var(--theme-primary)); }
-  100% { filter: brightness(1)   drop-shadow(0 0 4px  var(--theme-primary)); }
-}
-.logo-glow {
-  animation: logoGlow 0.7s ease-out forwards;
-}
-
-:root {
-  --color-bg: #0e0e10;
-  --color-bg-mid: #1a1a1d;
-  --color-accent: #ff6b1a;
-  --color-accent-glow: rgba(255, 107, 26, 0.4);
-  --color-crosshair: #00ff66;
-  --color-text: #e8e8e8;
-  --color-text-dim: #888;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -89,33 +57,18 @@ body {
   padding: 0;
 }
 
+/* ── Animaciones generales ── */
+
+/* fadeIn — usado por .anim-fade (hero overlay, tarjetas) */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
+
+/* glow pulsante — combinado con fadeIn en .anim-fade.glow */
 @keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 5px var(--color-accent-glow);
-  }
-  50% {
-    box-shadow: 0 0 100px var(--color-accent-glow);
-  }
-}
-@keyframes slide-in {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 107, 26, 0.4); }
+  50%       { box-shadow: 0 0 100px rgba(255, 107, 26, 0.4); }
 }
 
 .anim-fade {
@@ -127,30 +80,29 @@ body {
   animation: fadeIn 0.6s ease forwards, glow 2s 2s ease-in-out infinite;
 }
 
-.anim-slide-in {
-  animation: slide-in 0.5s ease-out;
-}
-
+/* killCard — notificación en el killfeed */
 @keyframes killCard {
   0%   { opacity: 0; transform: translateX(20px); }
-  10%  { opacity: 1; transform: translateX(0); }
+  10%  { opacity: 1; transform: translateX(0);    }
   75%  { opacity: 1; }
   100% { opacity: 0; }
 }
-
 .anim-kill-card {
   animation: killCard 3s ease forwards;
 }
 
+/* Ticker de texto horizontal */
 @keyframes ticker {
   from { transform: translateX(-50%); }
-  to { transform: translateX(0%); }
+  to   { transform: translateX(0%);   }
 }
-
 .animate-ticker {
   animation: ticker 25s linear infinite;
 }
 
+/* ── Animaciones del portfolio ── */
+
+/* Terror fijo en margen: entra cayendo desde arriba */
 @keyframes terrorSlideIn {
   from { transform: translateY(-72vh); opacity: 0; }
   to   { transform: translateY(0);     opacity: 1; }
@@ -159,6 +111,7 @@ body {
   animation: terrorSlideIn 0.75s ease-out forwards;
 }
 
+/* Botón "Volver al Hero": entra desde la derecha */
 @keyframes slideInRight {
   from { transform: translateX(100%); opacity: 0; }
   to   { transform: translateX(0);    opacity: 1; }
@@ -167,3 +120,24 @@ body {
   animation: slideInRight 0.6s ease-out forwards;
 }
 
+/* Logo header: coin-flip 3D al cambiar de tema */
+@keyframes coinFlip {
+  0%   { transform: perspective(400px) rotateY(0deg)   scale(1);   }
+  25%  { transform: perspective(400px) rotateY(90deg)  scale(1.2); }
+  50%  { transform: perspective(400px) rotateY(180deg) scale(1);   }
+  75%  { transform: perspective(400px) rotateY(270deg) scale(1.2); }
+  100% { transform: perspective(400px) rotateY(360deg) scale(1);   }
+}
+.logo-flip {
+  animation: coinFlip 0.6s ease-in-out forwards;
+}
+
+/* Glow post-flip en el color del tema activo */
+@keyframes logoGlow {
+  0%   { filter: brightness(1) drop-shadow(0 0 0px  transparent);        }
+  35%  { filter: brightness(2) drop-shadow(0 0 18px var(--theme-primary)); }
+  100% { filter: brightness(1) drop-shadow(0 0 4px  var(--theme-primary)); }
+}
+.logo-glow {
+  animation: logoGlow 0.7s ease-out forwards;
+}

@@ -1,5 +1,6 @@
-import {useRef, useEffect} from 'react';
+import { useRef, useEffect } from 'react';
 import kaplay from 'kaplay';
+import { SECCIONES, SCROLL_THRESHOLD, BULLET_SPEED, TRAIL_LEN } from '../constants';
 
 if (import.meta.hot) {
     import.meta.hot.accept(() => {
@@ -141,7 +142,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
         // Usamos window mousedown porque KAPLAY no detecta clicks con elementos DOM encima
         const onMouseDown = () => {
             // Si el usuario scrolleó fuera del hero, el SectionShooter se encarga
-            if (window.scrollY > window.innerHeight * 0.7) return
+            if (window.scrollY > window.innerHeight * SCROLL_THRESHOLD) return
 
             playShot()
             if (!terrorRef) return
@@ -150,7 +151,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
             // Usamos 'boton' como label genérico para el killfeed en vez del ID de sección.
             let hitBtn = false
             let pendingHit = null
-            const secciones = ['sobremi', 'habilidades', 'proyectos', 'experiencia', 'contacto']
+            const secciones = SECCIONES.map(s => s.id)
             for (const id of secciones) {
                 const btn = document.getElementById(`btn-${id}`)
                 if (!btn) continue
@@ -191,7 +192,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
             const dy = mouseY - spawnY
             const dist = Math.sqrt(dx * dx + dy * dy)
 
-            const speed = 5000
+            const speed = BULLET_SPEED
             const velX = (dx / dist) * speed
             const velY = (dy / dist) * speed
 
@@ -237,7 +238,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
 
-            const TRAIL_LEN = 45 // longitud del tracer en píxeles
+            // TRAIL_LEN importado de constants.js
 
             // Dibuja el tracer de cada bala en vuelo
             k.add([{
