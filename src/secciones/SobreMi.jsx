@@ -9,7 +9,6 @@ const CV_PATH      = '/CV_SantiagoElianVazquez.pdf'
 const stats = [
     { label: 'Proyectos reales',    value: '1+',    desc: 'RADEP — plataforma para Magnética' },
     { label: 'Tecnologías',         value: '16',    desc: 'Frontend, Backend, Herramientas'   },
-    { label: 'Horas de pasantía',   value: '200',   desc: 'Municipalidad de Caseros, 2025'    },
     { label: 'Año de carrera',      value: '2°',    desc: 'ISFT 225 — Tecnicatura en Desarrollo de Software' },
     { label: 'Inglés',              value: 'B2',    desc: 'Nivel upper-intermediate'           },
 ]
