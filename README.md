@@ -46,6 +46,6 @@ Abre [http://localhost:5173](http://localhost:5173) en el browser.
 
 ## Contacto
 
-**Santiago Elian Vazquez** — Desarrollador Junior · Buenos Aires
+**Santiago Elian Vazquez** — Desarrollador Junior · Buenos Aires - santiagoelianvazquez@gmail.com
 
 [LinkedIn](https://www.linkedin.com/in/santiago-vazquez-b266b3374/) · [GitHub](https://github.com/SantiagoVazquez21)
