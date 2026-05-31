@@ -2,7 +2,7 @@
 
 Portfolio personal con estética de CS2. Navegación mediante mecánica de disparo, sistema de temas Terror/AntiTerror y animaciones reactivas.
 
-**[→ Ver en vivo](https://portafolio-santiago-vazquez-qvh3d2iks.vercel.app)**
+**[→ Ver en vivo](https://portafolio-santiago-vazquez.vercel.app)**
 
 ---
 
