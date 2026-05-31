@@ -1,6 +1,6 @@
 export default function KillFeed({ kills }) {
     return (
-        <div className="fixed top-25 right-4 z-50 flex flex-col gap-3 pointer-events-none">
+        <div className="fixed top-25 right-4 z-50 flex flex-col items-end gap-3 pointer-events-none">
             {kills.map(kill => {
                 const esCT   = kill.tema === 'antiterror'
                 const nombre = esCT ? 'COUNTER-TERRORIST' : 'TERRORIST'
