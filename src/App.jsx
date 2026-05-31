@@ -20,7 +20,6 @@ export default function App() {
 
   return (
     <>
-      {/* Disclaimer mobile — solo visible en pantallas < 768px */}
       <div className="fixed inset-0 z-[9999] bg-[#0B1220] flex-col items-center justify-center text-center p-8 hidden max-md:flex">
         <img src="/sprites/LogoAntiTerror.png" alt="AIM" className="h-20 mb-6 opacity-80" />
         <h1 className="text-2xl font-bold text-orange-400 mb-3" style={{ fontFamily: 'Rajdhani, sans-serif' }}>

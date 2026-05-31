@@ -72,7 +72,6 @@ export default function Menu({ onKill }) {
         <>
             <Header tema={tema} onToggleTema={toggleTema} />
 
-            {/* Sprite fijo en el margen izquierdo — cambia con el tema */}
             {enSecciones && (
                 <div className="fixed left-0 bottom-4 z-40 w-72 flex justify-center pointer-events-none terror-slide-in">
                     <img ref={terrorImgRef} src={spriteMargen} alt="" className="h-72 w-auto" />
@@ -120,7 +119,6 @@ export default function Menu({ onKill }) {
                     {/* HUD inferior — estilo CS2, colores fijos */}
                     <div className="flex items-end justify-between">
 
-                        {/* Izquierda: HP bar — entra desde la izquierda */}
                         <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 flex flex-col gap-2 slide-in-left"
                             style={{ animationDelay: '0.7s', animationFillMode: 'both', opacity: 0 }}>
                             <span className="text-sm uppercase tracking-widest font-bold text-orange-400">
@@ -137,7 +135,6 @@ export default function Menu({ onKill }) {
                             )}
                         </div>
 
-                        {/* Derecha: kill counter — entra desde la derecha */}
                         <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 text-right slide-in-right"
                             style={{ animationDelay: '0.9s', animationFillMode: 'both', opacity: 0 }}>
                             <p className="text-xs uppercase tracking-widest text-white font-bold">Secciones visitadas</p>

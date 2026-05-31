@@ -32,7 +32,6 @@ export default function Header({ tema = 'terror', onToggleTema }) {
 
                 <div className="flex-1 flex items-center justify-between px-8">
 
-                    {/* Logo clickeable — coin-flip horizontal al hacer clic */}
                     <button
                         onClick={handleLogoClick}
                         className="focus:outline-none transition-all duration-200 hover:scale-110 hover:drop-shadow-[0_0_10px_var(--theme-primary)]"

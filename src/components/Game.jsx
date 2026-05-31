@@ -21,7 +21,6 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
     onMissRef.current = onMiss;
     temaRef.current   = tema;
 
-    // Actualiza el color de la mira cuando cambia el tema
     useEffect(() => {
         const color = tema === 'terror' ? '#CC2222' : '#2244FF'
         if (miraLineaH.current) miraLineaH.current.style.background = color
@@ -31,7 +30,6 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
     useEffect(() => {
         document.documentElement.classList.add('game-active')
 
-        // Mira del DOM
         const mira = document.createElement('div')
         mira.style.cssText = `
             position: fixed;
@@ -126,7 +124,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
 
         const HeadShot = () => {
             const audio = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3')
-            audio.volume = 0.1
+            audio.volume = 0.09
             audio.play()
         }
 
@@ -135,7 +133,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
                 ? '/sonidos/CS2_AK47_Sonido.mp3'
                 : '/sonidos/M4A1-S_Sonido.mp3'
             const audio = new Audio(src)
-            audio.volume = 0.2
+            audio.volume = 0.1
             audio.play()
         }
 
@@ -238,9 +236,6 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
             // Guardamos referencia para que onMouseDown pueda usarla
             terrorRef = Terror
 
-            // TRAIL_LEN importado de constants.js
-
-            // Dibuja el tracer de cada bala en vuelo
             k.add([{
                 draw() {
                     for (const b of balas) {
@@ -280,9 +275,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
                 }
             }])
 
-            const HOLE_LIFE = 4 // segundos que dura cada agujero en pantalla
-
-            // Objeto persistente que dibuja todos los agujeros y maneja su fade-out
+            const HOLE_LIFE = 4
             k.add([{
                 draw() {
                     const now = k.time()
@@ -299,7 +292,6 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
                         // Fade-out: empieza 1 segundo antes de desaparecer
                         const opacity = age > HOLE_LIFE - 1 ? (HOLE_LIFE - age) : 1
 
-                        // Sprite real del agujero de bala con fade-out aplicado
                         k.drawSprite({
                             sprite: "AgujeroBala",
                             pos: k.vec2(hole.x, hole.y),
@@ -325,7 +317,6 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
                     Terror.use(k.sprite(direction === 1 ? spriteD() : spriteI()))
                 }
 
-                // Movimiento del personaje
                 Terror.pos.x += 150 * direction * k.dt()
                 Terror.pos.y = BASE_Y + Math.sin(k.time() * 8) * 15
 
@@ -352,7 +343,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
 
                     // Si el avance de este frame supera la distancia restante → llegó al destino
                     if (stepDist >= distToTarget) {
-                        if (b.onHit) b.onHit()  // headshot + scroll al llegar
+                        if (b.onHit) b.onHit()
                         else bulletHoles.push({ x: b.targetX, y: b.targetY, born: k.time() })
                         b.obj.destroy()
                         balas.splice(i, 1)

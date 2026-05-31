@@ -73,7 +73,6 @@ export default function SobreMi() {
 
             <div ref={sectionRef} className="flex flex-col md:flex-row items-center gap-16 max-w-5xl mx-auto px-8 py-12">
 
-                {/* Foto — scale-in al entrar al viewport */}
                 <div className={`flex-shrink-0 flex flex-col items-center gap-4 transition-all duration-700
                     ${sectionInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
                     <img
@@ -82,7 +81,6 @@ export default function SobreMi() {
                         className="w-64 h-64 rounded-full object-cover border-4 border-orange-400"
                     />
 
-                    {/* Badge disponibilidad */}
                     <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-400/40 bg-orange-400/10">
                         <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse flex-shrink-0 self-center" />
                         <span className="text-orange-400 text-xs font-bold uppercase tracking-widest leading-none translate-y-px">
@@ -115,7 +113,6 @@ export default function SobreMi() {
                         Actualmente aprendiendo React y construyendo este portfolio.
                     </p>
 
-                    {/* Links y CV — stagger desde abajo */}
                     <div className={`flex items-center gap-3 flex-wrap mt-1 transition-all duration-500
                         ${sectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                         style={{ transitionDelay: '400ms' }}>
