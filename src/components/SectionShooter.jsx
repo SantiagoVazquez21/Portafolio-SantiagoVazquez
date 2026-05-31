@@ -125,7 +125,7 @@ export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgR
             const a = new Audio(src); a.volume = 0.2; a.play()
         }
         const playHeadShot = () => {
-            const a = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3'); a.volume = 0.2; a.play()
+            const a = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3'); a.volume = 0.1; a.play()
         }
 
         const onMouseDown = (e) => {

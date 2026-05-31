@@ -126,7 +126,7 @@ function Game({ onKill, onMiss, tema = 'terror' }) {
 
         const HeadShot = () => {
             const audio = new Audio('/sonidos/CS2_HeadShot_Sonido.mp3')
-            audio.volume = 0.2
+            audio.volume = 0.1
             audio.play()
         }
 
