@@ -7,7 +7,7 @@ const proyectos = [
         descripcion: 'Sitio web personal para mostrar mi experiencia, habilidades y proyectos. Desarrollado con React, Tailwind CSS y KAPLAY, con un diseño moderno y responsivo. Incluye secciones de biografía, habilidades, proyectos destacados y contacto.',
         imagen: '/proyectos/portafolio.png',
         tecnologias: ['React', 'Tailwind CSS', 'HTML', 'CSS', 'JavaScript', 'KAPLAY'],
-        repoUrl: 'https://github.com/SantiagoVazquez21/Portafolio-Personal',
+        repoUrl: 'https://github.com/SantiagoVazquez21/Portafolio-SantiagoVazquez',
         demoUrl: null,
     },
     {
