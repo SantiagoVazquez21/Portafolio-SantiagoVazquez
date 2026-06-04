@@ -3,6 +3,14 @@ import { useInView } from '../hooks/useInView'
 
 const proyectos = [
     {
+        titulo: 'Portafolio Personal',
+        descripcion: 'Sitio web personal para mostrar mi experiencia, habilidades y proyectos. Desarrollado con React, Tailwind CSS y KAPLAY, con un diseño moderno y responsivo. Incluye secciones de biografía, habilidades, proyectos destacados y contacto.',
+        imagen: '/proyectos/portafolio.png',
+        tecnologias: ['React', 'Tailwind CSS', 'HTML', 'CSS', 'JavaScript', 'KAPLAY'],
+        repoUrl: 'https://github.com/SantiagoVazquez21/Portafolio-Personal',
+        demoUrl: null,
+    },
+    {
         titulo: 'RADEP',
         descripcion: 'Plataforma web cloud para gestión de acreditación de proveedores en eventos corporativos. Permite a organizadores validar documentación, generar códigos QR de acceso y administrar vendors. Desarrollado para Magnética, empresa de producción de eventos.',
         imagen: '/proyectos/radep.png',
