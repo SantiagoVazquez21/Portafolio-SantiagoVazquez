@@ -53,7 +53,7 @@ export default function Contacto() {
                         name="from_email"
                         required
                         placeholder="nombre@ejemplo.com"
-                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm
+                        className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white text-sm
                             placeholder:text-gray-700
                             focus:outline-none focus:border-orange-400/50 focus:bg-white/8
                             transition-colors duration-200"
@@ -68,7 +68,7 @@ export default function Contacto() {
                         name="subject"
                         required
                         placeholder="¿De qué se trata?"
-                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm
+                        className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white text-sm
                             placeholder:text-gray-700
                             focus:outline-none focus:border-orange-400/50 focus:bg-white/8
                             transition-colors duration-200"
@@ -83,7 +83,7 @@ export default function Contacto() {
                         required
                         rows={5}
                         placeholder="Escribí tu mensaje acá..."
-                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm
+                        className="bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white text-sm
                             placeholder:text-gray-700 resize-none
                             focus:outline-none focus:border-orange-400/50 focus:bg-white/8
                             transition-colors duration-200"
@@ -108,13 +108,13 @@ export default function Contacto() {
 
                 {/* Feedback de éxito o error */}
                 {status === 'success' && (
-                    <div className="flex items-center gap-2 text-sm text-green-400 bg-green-400/10 border border-green-400/20 rounded-lg px-4 py-3">
+                    <div className="flex items-center gap-2 text-sm text-green-400 bg-green-400/10 border border-green-400/20 rounded-none px-4 py-3">
                         <FaCheckCircle className="flex-shrink-0" />
                         ¡Mensaje enviado! Te respondo a la brevedad.
                     </div>
                 )}
                 {status === 'error' && (
-                    <div className="flex items-center gap-2 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-3">
+                    <div className="flex items-center gap-2 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-none px-4 py-3">
                         <FaExclamationCircle className="flex-shrink-0" />
                         Algo salió mal. Intentá de nuevo o escribime directamente.
                     </div>

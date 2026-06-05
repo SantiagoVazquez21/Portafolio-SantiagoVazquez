@@ -87,7 +87,7 @@ function SkillCard({ titulo, logos, delay = 0 }) {
     return (
         <div
             ref={cardRef}
-            className={`bg-white/5 border border-white/10 rounded-xl p-5 transition-all duration-500
+            className={`bg-white/5 border border-white/10 p-5 transition-all duration-500
                 ${cardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ transitionDelay: `${delay}ms` }}
         >

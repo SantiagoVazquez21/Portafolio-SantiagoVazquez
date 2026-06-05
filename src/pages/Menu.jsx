@@ -148,7 +148,7 @@ export default function Menu({ onKill }) {
             <Seccion id="sobremi"                              centered><SobreMi /></Seccion>
             <Seccion id="habilidades" alt                  centered><Habilidades /></Seccion>
             <Seccion id="proyectos"       className="min-h-[calc(100vh-80px)]"><Proyectos /></Seccion>
-            <Seccion id="experiencia" alt                  centered><Experiencia /></Seccion>
+            <Seccion id="experiencia" alt className="min-h-[calc(100vh-80px)]"><Experiencia /></Seccion>
             <Seccion id="contacto"                         centered><Contacto /></Seccion>
         </>
     )
