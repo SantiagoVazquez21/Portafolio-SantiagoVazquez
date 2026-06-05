@@ -129,10 +129,10 @@ function MapCard({ proyecto, onSelect }) {
 
             {/* Texto centrado al fondo — igual que los nombres de mapas en CS2 */}
             <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 text-center">
-                <p className="text-white font-bold text-xl leading-tight mb-1.5">
+                <p className="text-white font-bold text-base leading-tight mb-1">
                     {proyecto.titulo}
                 </p>
-                <p className="text-gray-300 text-sm leading-snug line-clamp-2">
+                <p className="text-gray-300 text-xs leading-snug">
                     {proyecto.descripcionBreve}
                 </p>
             </div>
