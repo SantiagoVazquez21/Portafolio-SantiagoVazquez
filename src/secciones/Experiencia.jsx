@@ -35,18 +35,6 @@ const experiencia = [
             'Gestión de datos sensibles de ciudadanos garantizando confidencialidad, integridad y trazabilidad.',
         ],
     },
-    {
-        empresa: 'Municipalidad de Caseros',
-        rol: 'Asistente de Datos y Automatización',
-        tipo: 'Pasantía · 200 hs · 6 meses',
-        fecha: '2025',
-        area: 'Área de Acción Social',
-        logros: [
-            'Identificación de problemáticas de gestión documental y propuesta de solución de digitalización.',
-            'Desarrollo de sistema de planillas en Excel con funciones avanzadas (BUSCARV, tablas dinámicas, validación de datos) adoptado por el equipo.',
-            'Gestión de datos sensibles de ciudadanos garantizando confidencialidad, integridad y trazabilidad.',
-        ],
-    },
 ]
 
 function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0 }) {
