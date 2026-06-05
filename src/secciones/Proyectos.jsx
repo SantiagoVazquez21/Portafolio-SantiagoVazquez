@@ -10,7 +10,7 @@ const proyectos = [
         imagen: '/proyectos/portafolio.png',
         tecnologias: ['React', 'Tailwind CSS', 'HTML', 'CSS', 'JavaScript', 'KAPLAY'],
         repoUrl: 'https://github.com/SantiagoVazquez21/Portafolio-SantiagoVazquez',
-        demoUrl: 'https://portafolio-santiago-vazquez.vercel.app',
+        demoUrl: null,
     },
     {
         titulo: 'RADEP',
@@ -21,7 +21,6 @@ const proyectos = [
         repoUrl: 'https://github.com/SantiagoVazquez21/RADEP-Registro-y-Acreditaci-n-de-Proveedores',
         demoUrl: null,
     },
-    
 ]
 
 // Modal de detalle — se abre cuando disparás una card
@@ -111,7 +110,7 @@ function MapCard({ proyecto, onSelect }) {
         <button
             ref={setRef}
             onClick={() => onSelect(proyecto)}
-            className={`proyecto-card-btn relative w-44 h-106 flex-shrink-0 overflow-hidden rounded-none
+            className={`proyecto-card-btn relative w-44 h-92 flex-shrink-0 overflow-hidden rounded-none
                 border-2 border-white/10 hover:border-white focus:outline-none focus:border-white/10
                 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}

@@ -35,6 +35,18 @@ const experiencia = [
             'Gestión de datos sensibles de ciudadanos garantizando confidencialidad, integridad y trazabilidad.',
         ],
     },
+    {
+        empresa: 'Municipalidad de Caseros',
+        rol: 'Asistente de Datos y Automatización',
+        tipo: 'Pasantía · 200 hs · 6 meses',
+        fecha: '2025',
+        area: 'Área de Acción Social',
+        logros: [
+            'Identificación de problemáticas de gestión documental y propuesta de solución de digitalización.',
+            'Desarrollo de sistema de planillas en Excel con funciones avanzadas (BUSCARV, tablas dinámicas, validación de datos) adoptado por el equipo.',
+            'Gestión de datos sensibles de ciudadanos garantizando confidencialidad, integridad y trazabilidad.',
+        ],
+    },
 ]
 
 function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0 }) {
@@ -137,7 +149,7 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
 
 export default function Experiencia() {
     return (
-        <div className="flex flex-col gap-3 max-w-5xl mx-auto px-8 py-2 w-full">
+        <div className="flex flex-col gap-8 max-w-5xl mx-auto px-8 py-2 w-full">
 
             {/* Formación — 2 cards en fila, cada una ocupa la mitad */}
             <div>
@@ -149,12 +161,14 @@ export default function Experiencia() {
                 </div>
             </div>
 
-            {/* Experiencia — una sola card full width */}
+            {/* Experiencia — cards full width con el mismo gap que Formación */}
             <div>
                 <h2 className="text-4xl font-bold text-orange-400 mb-2">Experiencia</h2>
-                {experiencia.map((item, i) => (
-                    <ExperienciaCard key={i} {...item} delay={i * 100} />
-                ))}
+                <div className="flex flex-col gap-4">
+                    {experiencia.map((item, i) => (
+                        <ExperienciaCard key={i} {...item} delay={i * 100} />
+                    ))}
+                </div>
             </div>
 
         </div>
