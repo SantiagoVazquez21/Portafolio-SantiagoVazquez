@@ -137,7 +137,7 @@ export default function Menu({ onKill }) {
 
                         <div className="bg-black/50 backdrop-blur-sm border border-white/10 rounded-xl px-5 py-3 text-right slide-in-right"
                             style={{ animationDelay: '0.9s', animationFillMode: 'both', opacity: 0 }}>
-                            <p className="text-xs uppercase tracking-widest text-white font-bold">Secciones visitadas</p>
+                            <p className="text-xs uppercase tracking-widest text-white font-bold">Secciones Disparadas</p>
                             <p className="text-6xl font-bold text-orange-400 mt-1">{killCount}</p>
                         </div>
 

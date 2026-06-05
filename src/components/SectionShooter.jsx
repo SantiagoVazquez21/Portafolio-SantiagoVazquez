@@ -20,16 +20,19 @@ function getCanionPos(terrorImgRef, tema) {
 }
 
 export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgRef, tema = 'antiterror' }) {
-    const canvasRef       = useRef(null)
-    const bulletsRef      = useRef([])
-    const blockDianaRef   = useRef(false)  // bloquea el click de diana mientras la bala viaja
+    const canvasRef         = useRef(null)
+    const bulletsRef        = useRef([])
+    const blockDianaRef     = useRef(false)  // bloquea el click de diana mientras la bala viaja
+    const blockProyectoRef  = useRef(false)  // bloquea el click de proyecto-card mientras la bala viaja
 
-    // Interceptor en capture phase — bloquea el click de la diana si hay una bala en vuelo hacia ella
+    // Interceptor en capture phase — bloquea clicks de diana y project-card mientras la bala viaja
     useEffect(() => {
         const intercept = (e) => {
             if (blockDianaRef.current && e.target.closest('.diana-btn')) {
-                e.stopPropagation()
-                e.preventDefault()
+                e.stopPropagation(); e.preventDefault()
+            }
+            if (blockProyectoRef.current && e.target.closest('.proyecto-card-btn')) {
+                e.stopPropagation(); e.preventDefault()
             }
         }
         window.addEventListener('click', intercept, { capture: true })
@@ -145,6 +148,32 @@ export default function SectionShooter({ enSecciones, onKill, onMiss, terrorImgR
                 const dy = e.clientY - canion.y
                 const dist = Math.sqrt(dx*dx + dy*dy)
                 if (dist === 0) { blockDianaRef.current = false; return }
+                bulletsRef.current.push({
+                    x: canion.x, y: canion.y,
+                    velX: (dx/dist) * SPEED, velY: (dy/dist) * SPEED,
+                    targetX: e.clientX, targetY: e.clientY,
+                    onHit,
+                })
+                return
+            }
+
+            // Project card: bloquea el click, spawna bala, abre el detalle al llegar
+            if (e.target.closest('.proyecto-card-btn')) {
+                if (blockProyectoRef.current) return
+                const cardEl = e.target.closest('.proyecto-card-btn')
+                blockProyectoRef.current = true
+                const onHit = () => {
+                    playHeadShot()
+                    if (typeof cardEl._activar === 'function') cardEl._activar()
+                    setTimeout(() => { blockProyectoRef.current = false }, 0)
+                }
+                playShot()
+                const canion = getCanionPos(terrorImgRef, tema)
+                if (!canion) { blockProyectoRef.current = false; return }
+                const dx = e.clientX - canion.x
+                const dy = e.clientY - canion.y
+                const dist = Math.sqrt(dx*dx + dy*dy)
+                if (dist === 0) { blockProyectoRef.current = false; return }
                 bulletsRef.current.push({
                     x: canion.x, y: canion.y,
                     velX: (dx/dist) * SPEED, velY: (dy/dist) * SPEED,
