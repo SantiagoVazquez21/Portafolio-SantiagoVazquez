@@ -21,6 +21,15 @@ const proyectos = [
         repoUrl: 'https://github.com/SantiagoVazquez21/RADEP-Registro-y-Acreditaci-n-de-Proveedores',
         demoUrl: null,
     },
+    {
+        titulo: 'Renti-bot',
+        descripcionBreve: 'Bot de scraping de alquileres con envío automático por email',
+        descripcion: 'Bot que scrapea Argenprop, Zonaprop y Mercado Libre buscando alquileres en AMBA según filtros configurables (precio, ambientes, metros, expensas, zona). Envía un resumen diario por email con diseño HTML en dos columnas, separando resultados nuevos de ya vistos. Incluye interfaz web local en Flask para configurar los filtros, programar el envío y correr el bot manualmente.',
+        imagen: '/proyectos/renti-bot.png',
+        tecnologias: ['Python', 'Flask', 'BeautifulSoup', 'HTML', 'CSS'],
+        repoUrl: 'https://github.com/SantiagoVazquez21/renti-bot',
+        demoUrl: null,
+    },
 ]
 
 // Modal de detalle — se abre cuando disparás una card
