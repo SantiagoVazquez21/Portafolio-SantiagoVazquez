@@ -38,7 +38,8 @@ const experiencia = [
     },
 ]
 
-// Modal que muestra el PDF sin toolbar — evita la descarga directa para el usuario promedio
+// El modal se renderiza en Experiencia (fuera de las cards) para evitar que el transform
+// de animación de la card lo atrape y lo recorte
 function CertModal({ url, onClose }) {
     useEffect(() => {
         const onKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -56,7 +57,6 @@ function CertModal({ url, onClose }) {
                 style={{ height: '85vh' }}
                 onClick={e => e.stopPropagation()}
             >
-                {/* Header del modal */}
                 <div className="flex items-center justify-between px-6 py-3 border-b border-white/10 flex-shrink-0">
                     <span className="text-orange-400 text-sm font-bold uppercase tracking-widest flex items-center gap-2">
                         <FaCertificate /> Certificado
@@ -69,7 +69,6 @@ function CertModal({ url, onClose }) {
                     </button>
                 </div>
 
-                {/* iframe con toolbar oculto — el #toolbar=0 le saca el botón de descarga al visor del browser */}
                 <div className="flex-1 overflow-hidden" onContextMenu={e => e.preventDefault()}>
                     <iframe
                         src={`${url}#toolbar=0&navpanes=0&scrollbar=1`}
@@ -82,9 +81,8 @@ function CertModal({ url, onClose }) {
     )
 }
 
-function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0 }) {
+function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0, onViewCert }) {
     const [ref, inView] = useInView()
-    const [showCert, setShowCert] = useState(false)
 
     return (
         <div
@@ -94,13 +92,9 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                 transition-opacity transition-transform duration-500`}
             style={{ transitionDelay: `${delay}ms` }}
         >
-            {showCert && <CertModal url={certUrl} onClose={() => setShowCert(false)} />}
-
-            {/* Fondo con gradiente sutil en el color del tema */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/8 via-transparent to-transparent" />
 
             <div className="relative p-4 h-full flex flex-col gap-2">
-                {/* Fecha badge arriba a la derecha */}
                 <div className="flex justify-between items-start">
                     <span className="text-xs uppercase tracking-widest font-bold text-orange-400">
                         Formación
@@ -110,7 +104,6 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                     </span>
                 </div>
 
-                {/* Institución y carrera */}
                 <div className="flex-1">
                     <h3 className="text-white font-bold text-xl leading-tight mb-1">{institucion}</h3>
                     <p className="text-gray-300 text-sm leading-snug">{carrera}</p>
@@ -118,13 +111,12 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                     {detalle && <p className="text-orange-400/70 text-xs mt-1">{detalle}</p>}
                 </div>
 
-                {/* Certificado si corresponde */}
                 {certUrl !== false && (
                     <div className="pt-3 border-t border-white/5">
                         {certUrl ? (
                             <button
                                 data-kill
-                                onClick={() => setShowCert(true)}
+                                onClick={() => onViewCert(certUrl)}
                                 className="flex items-center gap-2 text-xs px-3 py-1.5 bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 text-orange-400 rounded w-fit transition-colors"
                             >
                                 <FaCertificate /> Ver certificado
@@ -155,7 +147,6 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/8 via-transparent to-transparent" />
 
             <div className="relative p-4 flex flex-col gap-3">
-                {/* Header */}
                 <div className="flex items-start justify-between gap-4">
                     <div>
                         <span className="text-xs uppercase tracking-widest font-bold text-orange-400 mb-1 block">
@@ -170,7 +161,6 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
                     </span>
                 </div>
 
-                {/* Logros */}
                 {logros?.length > 0 && (
                     <ul className="flex flex-col gap-2 pt-2 border-t border-white/5">
                         {logros.map((logro, i) => (
@@ -187,29 +177,33 @@ function ExperienciaCard({ empresa, rol, tipo, fecha, area, logros, delay = 0 })
 }
 
 export default function Experiencia() {
+    const [activeCert, setActiveCert] = useState(null)
+
     return (
-        <div className="flex flex-col gap-8 max-w-5xl mx-auto px-8 py-2 w-full">
+        <>
+            {activeCert && <CertModal url={activeCert} onClose={() => setActiveCert(null)} />}
 
-            {/* Formación — 2 cards en fila, cada una ocupa la mitad */}
-            <div>
-                <h2 className="text-4xl font-bold text-orange-400 mb-2">Formación</h2>
-                <div className="flex gap-4">
-                    {formacion.map((item, i) => (
-                        <FormacionCard key={i} {...item} delay={i * 100} />
-                    ))}
+            <div className="flex flex-col gap-8 max-w-5xl mx-auto px-8 py-2 w-full">
+
+                <div>
+                    <h2 className="text-4xl font-bold text-orange-400 mb-2">Formación</h2>
+                    <div className="flex gap-4">
+                        {formacion.map((item, i) => (
+                            <FormacionCard key={i} {...item} delay={i * 100} onViewCert={setActiveCert} />
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* Experiencia — cards full width con el mismo gap que Formación */}
-            <div>
-                <h2 className="text-4xl font-bold text-orange-400 mb-2">Experiencia</h2>
-                <div className="flex flex-col gap-4">
-                    {experiencia.map((item, i) => (
-                        <ExperienciaCard key={i} {...item} delay={i * 100} />
-                    ))}
+                <div>
+                    <h2 className="text-4xl font-bold text-orange-400 mb-2">Experiencia</h2>
+                    <div className="flex flex-col gap-4">
+                        {experiencia.map((item, i) => (
+                            <ExperienciaCard key={i} {...item} delay={i * 100} />
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </>
     )
 }
