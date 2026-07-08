@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useInView } from '../hooks/useInView'
 import { FaCertificate } from 'react-icons/fa'
 
@@ -18,7 +19,7 @@ const formacion = [
         fecha: '2019 – 2025',
         lugar: 'Tres de Febrero, Buenos Aires',
         detalle: null,
-        certUrl: null,
+        certUrl: '/AnaliticoSecundarioTecnico_SantiagoVazquez.pdf',
     },
 ]
 
@@ -37,8 +38,53 @@ const experiencia = [
     },
 ]
 
+// Modal que muestra el PDF sin toolbar — evita la descarga directa para el usuario promedio
+function CertModal({ url, onClose }) {
+    useEffect(() => {
+        const onKey = (e) => { if (e.key === 'Escape') onClose() }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+    }, [onClose])
+
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            onClick={onClose}
+        >
+            <div
+                className="bg-[#0a0a0c]/95 border border-orange-400/20 rounded-xl overflow-hidden w-full max-w-4xl mx-8 shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col"
+                style={{ height: '85vh' }}
+                onClick={e => e.stopPropagation()}
+            >
+                {/* Header del modal */}
+                <div className="flex items-center justify-between px-6 py-3 border-b border-white/10 flex-shrink-0">
+                    <span className="text-orange-400 text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+                        <FaCertificate /> Certificado
+                    </span>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors"
+                    >
+                        [ ESC ] Cerrar
+                    </button>
+                </div>
+
+                {/* iframe con toolbar oculto — el #toolbar=0 le saca el botón de descarga al visor del browser */}
+                <div className="flex-1 overflow-hidden" onContextMenu={e => e.preventDefault()}>
+                    <iframe
+                        src={`${url}#toolbar=0&navpanes=0&scrollbar=1`}
+                        className="w-full h-full border-none"
+                        title="Certificado"
+                    />
+                </div>
+            </div>
+        </div>
+    )
+}
+
 function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, delay = 0 }) {
     const [ref, inView] = useInView()
+    const [showCert, setShowCert] = useState(false)
 
     return (
         <div
@@ -48,6 +94,8 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                 transition-opacity transition-transform duration-500`}
             style={{ transitionDelay: `${delay}ms` }}
         >
+            {showCert && <CertModal url={certUrl} onClose={() => setShowCert(false)} />}
+
             {/* Fondo con gradiente sutil en el color del tema */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/8 via-transparent to-transparent" />
 
@@ -74,10 +122,13 @@ function FormacionCard({ institucion, carrera, fecha, lugar, detalle, certUrl, d
                 {certUrl !== false && (
                     <div className="pt-3 border-t border-white/5">
                         {certUrl ? (
-                            <a data-kill href={certUrl} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-xs px-3 py-1.5 bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 text-orange-400 rounded w-fit transition-colors">
+                            <button
+                                data-kill
+                                onClick={() => setShowCert(true)}
+                                className="flex items-center gap-2 text-xs px-3 py-1.5 bg-orange-400/10 hover:bg-orange-400/20 border border-orange-400/30 text-orange-400 rounded w-fit transition-colors"
+                            >
                                 <FaCertificate /> Ver certificado
-                            </a>
+                            </button>
                         ) : (
                             <span className="flex items-center gap-2 text-xs px-3 py-1.5 bg-white/5 border border-white/10 text-gray-600 rounded w-fit select-none">
                                 <FaCertificate /> Certificado — próximamente
