@@ -12,7 +12,6 @@ const cards = [
             { img: '/lenguajes/CSS3.png',     label: 'CSS'          },
             { img: '/lenguajes/JS.png',        label: 'JavaScript'   },
             { img: '/lenguajes/React.png',     label: 'React'        },
-            { img: '/lenguajes/React.png',     label: 'React Native' },
             { img: '/lenguajes/Tailwind.png', label: 'Tailwind'     },
             { img: '/lenguajes/Kaplay.png',   label: 'KAPLAY'       },
         ]
@@ -24,6 +23,7 @@ const cards = [
             { img: '/lenguajes/CSharp.png',  label: 'C#'     },
             { img: '/lenguajes/Python.png', label: 'Python' },
             { img: '/lenguajes/MySQL.png',  label: 'MySQL'  },
+            { img: '/lenguajes/PostgreSQL.png', label: 'PostgreSQL' },
         ]
     },
     {
