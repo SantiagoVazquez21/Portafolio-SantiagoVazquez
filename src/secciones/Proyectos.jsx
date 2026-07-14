@@ -30,6 +30,15 @@ const proyectos = [
         repoUrl: 'https://github.com/SantiagoVazquez21/renti-bot',
         demoUrl: null,
     },
+    {
+        titulo: 'Gestion Pro',
+        descripcionBreve: 'Sistema de gestión para taller electrónico automotriz',
+        descripcion: 'Aplicación de escritorio para la gestión completa de un laboratorio de electrónica automotriz. Permite administrar clientes, órdenes de trabajo (módulos, cerrajería e instalaciones), ventas de insumos con control de stock, cotizaciones y garantías. Desarrollado en equipo aplicando arquitectura en capas.',
+        imagen: '/proyectos/GestionPro.png',
+        tecnologias: ['C#', '.NET', 'WinForms', 'MySQL', 'PostgreSQL'],
+        repoUrl: 'https://github.com/ronnin47/sistemaDeGestionAutomotriz',
+        demoUrl: null,
+    },
 ]
 
 // Modal de detalle — se abre cuando disparás una card
